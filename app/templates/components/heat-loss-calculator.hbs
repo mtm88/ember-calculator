@@ -1,10 +1,21 @@
-<button {{action 'setTab' 'siteInputs'}}>Site Inputs</button>
-<button {{action 'setTab' 'roomInputs'}}>Room Inputs</button>
+<button {{action 'setTab' 'currentInputTab' 'siteInputs'}}>Site Inputs</button>
+<button {{action 'setTab' 'currentInputTab' 'roomInputs'}}>Room Inputs</button>
 
-{{#if (eq currentTab 'siteInputs')}}
-  {{site-inputs config=siteInputsConfig}}
-{{else if (eq currentTab 'roomInputs')}}
-  {{room-inputs config=roomInputsConfig}}
+{{#if (eq currentInputTab 'siteInputs')}}
+  {{site-inputs siteInputsConfig=siteInputsConfig}}
+{{else if (eq currentInputTab 'roomInputs')}}
+  {{room-inputs roomInputsConfig=roomInputsConfig}}
+{{/if}}
+
+<hr>
+
+<button {{action 'setTab' 'currentResultsTab' 'certificate'}}>Certificate</button>
+<button {{action 'setTab' 'currentResultsTab' 'emitterSpecifications'}}>Emitter Specifications</button>
+
+{{#if (eq currentResultsTab 'certificate')}}
+  {{certificate-component siteInputsConfig=siteInputsConfig}}
+{{else if (eq currentResultsTab 'emitterSpecifications')}}
+  {{emiterSpec-component siteInputsConfig=siteInputsConfig}}
 {{/if}}
 
 {{yield}}

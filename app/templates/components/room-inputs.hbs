@@ -1,13 +1,14 @@
+<h2>Room Inputs</h2>
 
 <table>
   {{#each rooms as |room|}}
     <tr>
-      <td style='min-width: 75px'>
+      <td>
         <b>{{room.name}}</b>
       </td>
 
       {{#each room.fields as |field|}}
-      <td style='min-width: 150px; padding: 5px 15px 5px 15px'>
+      <td>
         {{edit-field editField=field}}
       </td>
       {{/each}}

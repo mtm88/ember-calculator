@@ -2,19 +2,18 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 
-  currentTab: 'siteInputs',
+  currentInputTab: 'siteInputs',
+  currentResultsTab: 'certificate',
 
   actions: {
-    setTab(chosenTab) {
-      this.set('currentTab', chosenTab);
+    setTab(tabType, chosenTab) {
+      this.set(tabType, chosenTab);
     },
   },
 
-
-
-
-
-
+  siteInputsObserver: Ember.observer('siteInputsConfig.@each.value', function () {
+    // logic for updating results
+  }),
 
   siteInputsConfig: [
     {
@@ -77,74 +76,74 @@ export default Ember.Component.extend({
   ],
 
   roomInputsConfig: [
-      {
-        name: 'roomName',
-        label: 'Room Name',
-        type: 'text',
-        value: 'Default room name',
-      },
-      {
-        name: 'emitterType',
-        label: 'Emitter type',
-        options: [
-          'Underfloor heating (UFH)',
-          'Convector',
-          'Radiator'
-        ],
-        type: 'select',
-        value: '',
-      },
-      {
-        name: 'temperatureFactor',
-        label: 'Temperature factor (convectors only)',
-        value: 0.85,
-        type: 'constant',
-      },
-      {
-        name: 'n-coefficient',
-        label: 'n-coefficient (radiators only)',
-        value: 1.30,
-        type: 'constant',
-      },
-      {
-        name: 'floorSurfaceType',
-        label: 'Floor surface type or temperature limit (°C) [underfloor only]',
-        value: 0,
-        type: 'constant',
-      },
-      {
-        name: 'floorConstruction',
-        label: 'Floor construction (underfloor only)',
-        value: 0,
-        type: 'constant',
-      },
-      {
-        name: 'floorTOGvalue',
-        label: 'Floor TOG value (underfloor only)',
-        value: 0,
-        type: 'constant',
-      },
-      {
-        name: 'activeFloorArea',
-        label: 'Active floor area in m² (underfloor only)',
-        value: 0,
-        type: 'constant',
-      },
-      {
-        name: 'roomType',
-        label: 'Room Type',
-        options: [
-          'Living Room',
-          'Dining Room',
-          'Bedsitting Room',
-          'Bedroom',
-          'Hall and Landing',
-          'Kitchen',
-          'Bathroom',
-          'Toilet',
-        ],
-        type: 'select',
-        value: '',
-      },
-    ],
+    {
+      name: 'roomName',
+      label: 'Room Name',
+      type: 'text',
+      value: 'Default room name',
+    },
+    {
+      name: 'emitterType',
+      label: 'Emitter type',
+      options: [
+        'Underfloor heating (UFH)',
+        'Convector',
+        'Radiator'
+      ],
+      type: 'select',
+      value: '',
+    },
+    {
+      name: 'temperatureFactor',
+      label: 'Temperature factor (convectors only)',
+      value: 0.85,
+      type: 'constant',
+    },
+    {
+      name: 'n-coefficient',
+      label: 'n-coefficient (radiators only)',
+      value: 1.30,
+      type: 'constant',
+    },
+    {
+      name: 'floorSurfaceType',
+      label: 'Floor surface type or temperature limit (°C) [underfloor only]',
+      value: 0,
+      type: 'constant',
+    },
+    {
+      name: 'floorConstruction',
+      label: 'Floor construction (underfloor only)',
+      value: 0,
+      type: 'constant',
+    },
+    {
+      name: 'floorTOGvalue',
+      label: 'Floor TOG value (underfloor only)',
+      value: 0,
+      type: 'constant',
+    },
+    {
+      name: 'activeFloorArea',
+      label: 'Active floor area in m² (underfloor only)',
+      value: 0,
+      type: 'constant',
+    },
+    {
+      name: 'roomType',
+      label: 'Room Type',
+      options: [
+        'Living Room',
+        'Dining Room',
+        'Bedsitting Room',
+        'Bedroom',
+        'Hall and Landing',
+        'Kitchen',
+        'Bathroom',
+        'Toilet',
+      ],
+      type: 'select',
+      value: '',
+    },
+  ],
 });

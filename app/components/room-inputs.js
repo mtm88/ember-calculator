@@ -10,7 +10,7 @@ export default Ember.Component.extend({
       const currentRoomsCount = rooms.length;
       rooms.pushObject({
         name: `Room ${currentRoomsCount + 1}`,
-        fields: this.get('config'),
+        fields: this.get('roomInputsConfig'),
       });
     },
   },

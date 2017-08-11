@@ -1,0 +1,6 @@
+{
+  "name": "ember-calculator",
+  "dependencies": {
+    "pickadate": "^3.5.6"
+  }
+}

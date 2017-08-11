@@ -1,0 +1,13 @@
+<h2>Certificate</h2>
+
+<table>
+  {{#each certificateFields as |field|}}
+    <tr>
+      <td>
+        {{edit-field editField=field siteInputsConfig=siteInputsConfig}}
+      </td>
+    </tr>
+  {{/each}}
+</table>
+
+{{yield}}
