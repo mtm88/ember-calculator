@@ -11,10 +11,7 @@ export default Ember.Component.extend({
     },
   },
 
-  siteInputsObserver: Ember.observer('siteInputsConfig.@each.value', function () {
-    // logic for updating results
-  }),
-
+  // configs to be moved to config files && imported
   siteInputsConfig: [
     {
       name: 'heatingDuration',
