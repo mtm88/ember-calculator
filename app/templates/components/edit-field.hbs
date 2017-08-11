@@ -1,0 +1,20 @@
+<p>{{editField.label}}</p>
+
+{{#if (eq editField.type 'select')}}
+  {{#power-select
+    options=editField.options
+    onchange=(action (mut editField.value))
+    selected=editField.value
+    as |option|
+  }}
+    {{option}}
+  {{/power-select}}
+
+{{else if (or (eq editField.type 'number') (eq editField.type 'text'))}}
+  <input style="height: 27px; width: 350px; border-radius: 3px;">
+
+{{else if (eq editField.type 'constant')}}
+  {{editField.value}}
+{{/if}}
+
+{{yield}}

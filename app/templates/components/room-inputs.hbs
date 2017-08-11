@@ -1,0 +1,20 @@
+
+<table>
+  {{#each rooms as |room|}}
+    <tr>
+      <td style='min-width: 75px'>
+        <b>{{room.name}}</b>
+      </td>
+
+      {{#each room.fields as |field|}}
+      <td style='min-width: 150px; padding: 5px 15px 5px 15px'>
+        {{edit-field editField=field}}
+      </td>
+      {{/each}}
+    </tr>
+  {{/each}}
+</table>
+
+<button {{action 'addRoom'}}>Add room</button>
+
+{{yield}}

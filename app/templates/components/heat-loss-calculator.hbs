@@ -1,0 +1,10 @@
+<button {{action 'setTab' 'siteInputs'}}>Site Inputs</button>
+<button {{action 'setTab' 'roomInputs'}}>Room Inputs</button>
+
+{{#if (eq currentTab 'siteInputs')}}
+  {{site-inputs config=siteInputsConfig}}
+{{else if (eq currentTab 'roomInputs')}}
+  {{room-inputs config=roomInputsConfig}}
+{{/if}}
+
+{{yield}}
