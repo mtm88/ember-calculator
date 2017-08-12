@@ -1,9 +1,9 @@
 <button {{action 'setTab' 'currentInputTab' 'siteInputs'}}>Site Inputs</button>
 <button {{action 'setTab' 'currentInputTab' 'roomInputs'}}>Room Inputs</button>
 
-{{#if (eq currentInputTab 'siteInputs')}}
+{{#if siteInputsTab}}
   {{site-inputs siteInputsConfig=siteInputsConfig}}
-{{else if (eq currentInputTab 'roomInputs')}}
+{{else if roomInputTab}}
   {{room-inputs roomInputsConfig=roomInputsConfig}}
 {{/if}}
 
@@ -12,9 +12,9 @@
 <button {{action 'setTab' 'currentResultsTab' 'certificate'}}>Certificate</button>
 <button {{action 'setTab' 'currentResultsTab' 'emitterSpecifications'}}>Emitter Specifications</button>
 
-{{#if (eq currentResultsTab 'certificate')}}
+{{#if certificateTab}}
   {{certificate-component siteInputsConfig=siteInputsConfig}}
-{{else if (eq currentResultsTab 'emitterSpecifications')}}
+{{else if emitterSpecTab}}
   {{emiterSpec-component siteInputsConfig=siteInputsConfig}}
 {{/if}}
 

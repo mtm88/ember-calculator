@@ -1,6 +1,6 @@
 <p><b>{{editField.label}}:</b></p>
 
-{{#if (eq editField.type 'select')}}
+{{#if typeIsSelect}}
   {{#power-select
     options=editField.options
     onchange=(action (mut editField.value))
@@ -10,16 +10,16 @@
     {{option}}
   {{/power-select}}
 
-{{else if (or (eq editField.type 'number') (eq editField.type 'text'))}}
+{{else if typeIsNumberOrText}}
   <input>
 
-{{else if (eq editField.type 'pickADate')}}
+{{else if typeIsPickADate}}
   {{pick-a-date date=(readonly editField.date) on-selected=(action (mut editField.date)) placeholder="Pick a date" options=(readonly editField.extraPickadateOptions)}}
 
-{{else if (eq editField.type 'constant')}}
+{{else if typeIsConstant}}
   {{editField.value}}
 
-{{else if (eq editField.type 'siteInputValue')}}
+{{else if typeIsSiteInputValue}}
   {{siteInputValue}}
 {{/if}}
 

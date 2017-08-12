@@ -5,6 +5,12 @@ export default Ember.Component.extend({
   currentInputTab: 'siteInputs',
   currentResultsTab: 'certificate',
 
+  siteInputsTab: Ember.computed.equal('currentInputTab', 'siteInputs'),
+  roomInputTab: Ember.computed.equal('currentInputTab', 'roomInputs'),
+
+  certificateTab: Ember.computed.equal('currentResultsTab', 'certificate'),
+  emitterSpecTab: Ember.computed.equal('currentResultsTab', 'emitterSpecifications'),
+
   actions: {
     setTab(tabType, chosenTab) {
       this.set(tabType, chosenTab);
