@@ -1,0 +1,16 @@
+{
+  "constructionOptions": [
+    {
+      "name": "Brick102 mm, plaster",
+      "value": 2.97
+    },
+    {
+      "name": "Brick228 mm, plaster",
+      "value": 2.11
+    },
+    {
+      "name": "Brick343 mm, plaster",
+      "value": 1.64
+    }
+  ]
+}

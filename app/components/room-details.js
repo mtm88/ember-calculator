@@ -9,7 +9,7 @@ export default Ember.Component.extend({
     this.bindFields();
   },
 
-  observeFields: Ember.observer('chosenRoom.fields.@each.value', function observeFields() {
+  observeFields: Ember.observer('roomFields.@each.value', function observeFields() {
     this.bindFields();
   }),
 
@@ -20,20 +20,22 @@ export default Ember.Component.extend({
       roomFields.forEach((room) => {
         this.set(room.name, room.value);
       });
-
-      const walls = this.get('walls');
-      const remappedWalls = [];
-      if (walls && !Ember.isEmpty(walls)) {
-        walls.forEach((wall, i) => {
-          remappedWalls[i] = {};
-          wall.fields.forEach((field) => {
-            remappedWalls[i][field.name] = field;
-          });
-        });
-      }
-
-      this.set('remappedWalls', remappedWalls);
     }
+
+    const walls = this.get('walls');
+    const remappedWalls = new Ember.A();
+
+    if (walls && !Ember.isEmpty(walls)) {
+      walls.forEach((wall) => {
+        const mappedWall = new Ember.Object();
+        wall.fields.forEach((field) => {
+          mappedWall[field.name] = field;
+        });
+        remappedWalls.pushObject(mappedWall);
+        this.set('remappedWalls', remappedWalls);
+      });
+    }
+
   },
 
   ventilationRate: Ember.computed('chosenRoom.fields.@each.value', function ventilationRate() {
@@ -58,11 +60,13 @@ export default Ember.Component.extend({
 
   DRT: Ember.computed('chosenRoom.fields.@each.value', function DRT() {
     const roomType = this.get('roomType');
-    const ventilationTable = this.get('ventilationTable');
-    if (roomType && ventilationTable) {
-      return ventilationTable[roomType].DRT;
-    }
-    return null;
+    return Ember.$.getJSON('/ventilationTable.json')
+      .then((jsonData) => {
+        if (roomType.length > 0 && jsonData) {
+          return parseInt(jsonData[roomType].DRT, 10);
+        }
+        return null;
+      });
   }),
 
   roomVolume: Ember.computed('chosenRoom.fields.@each.value', function roomVolume() {
