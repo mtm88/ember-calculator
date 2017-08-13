@@ -4,20 +4,60 @@
 
 <table roomDetails>
   {{#each rooms as |room index|}}
-  <tr>
+    <tr>
 
-    <td>
-      <b>{{room.name}}</b>
-      <button {{action 'showDetails' index}}>Details</button>
-    </td>
+      <td>
+        <p><b>{{room.name}}</b></p>
+        <button {{action 'add' 'wall' index}}>Add Wall/Floor/Ceiling</button>
+        <button {{action 'add' 'groundFloor' index}}>Add Ground Floor</button>
+        <button {{action 'add' 'window' index}}>Add Window/Door</button>
+        <button {{action 'showDetails' index}}>View Details</button>
+      </td>
 
-    {{#each room.fields as |field|}}
-    <td>
-      {{edit-field editField=field}}
-    </td>
+      {{#each room.fields as |field|}}
+      <td>
+        {{edit-field editField=field}}
+      </td>
+      {{/each}}
+
+    </tr>
+
+    {{#each room.walls as |wall index|}}
+    <tr>
+      <th>Wall {{index}}</th>
+
+      {{#each wall.fields as |field|}}
+      <td>
+        {{edit-field editField=field}}
+      </td>
+      {{/each}}
+    </tr>
     {{/each}}
 
-  </tr>
+    {{#each room.groundFloors as |groundFloor index|}}
+    <tr>
+      <th>Ground floor {{index}}</th>
+
+      {{#each groundFloor.fields as |field|}}
+      <td>
+        {{edit-field editField=field}}
+      </td>
+      {{/each}}
+    </tr>
+    {{/each}}
+
+    {{#each room.windows as |window index|}}
+    <tr>
+      <th>Window {{index}}</th>
+
+      {{#each window.fields as |field|}}
+      <td>
+        {{edit-field editField=field}}
+      </td>
+      {{/each}}
+    </tr>
+    {{/each}}
+
   {{/each}}
 
 </table>
