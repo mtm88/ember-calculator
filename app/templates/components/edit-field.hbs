@@ -11,7 +11,7 @@
   {{/power-select}}
 
 {{else if typeIsNumberOrText}}
-  <input>
+  {{input type='text' value=editField.value}}
 
 {{else if typeIsPickADate}}
   {{pick-a-date date=(readonly editField.date) on-selected=(action (mut editField.date)) placeholder="Pick a date" options=(readonly editField.extraPickadateOptions)}}

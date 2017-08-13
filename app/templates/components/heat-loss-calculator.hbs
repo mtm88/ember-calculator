@@ -4,7 +4,7 @@
 {{#if siteInputsTab}}
   {{site-inputs siteInputsConfig=siteInputsConfig}}
 {{else if roomInputTab}}
-  {{room-inputs roomInputsConfig=roomInputsConfig}}
+  {{room-inputs roomInputsConfig=roomInputsConfig rooms=rooms}}
 {{/if}}
 
 <hr>
@@ -15,7 +15,7 @@
 {{#if certificateTab}}
   {{certificate-component siteInputsConfig=siteInputsConfig roomInputsConfig=roomInputsConfig}}
 {{else if emitterSpecTab}}
-  {{emiterSpec-component siteInputsConfig=siteInputsConfig roomInputsConfig=roomInputsConfig}}
+  {{emiterSpec-component siteInputsConfig=siteInputsConfig roomInputsConfig=roomInputsConfig rooms=rooms}}
 {{/if}}
 
 {{yield}}

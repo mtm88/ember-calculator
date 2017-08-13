@@ -1,23 +1,27 @@
 <h2>Room Inputs</h2>
 
+<button {{action 'addRoom'}}>Add room</button> {{yield}}
+
 <table>
-  {{#each rooms as |room|}}
-    <tr>
+  {{#each rooms as |room index|}}
+  <tr>
 
-      <td>
-        <b>{{room.name}}</b>
-      </td>
+    <td>
+      <b>{{room.name}}</b>
+      <button {{action 'showDetails' index}}>Details</button>
+    </td>
 
-      {{#each room.fields as |field|}}
-      <td>
-        {{edit-field editField=field}}
-      </td>
-      {{/each}}
+    {{#each room.fields as |field|}}
+    <td>
+      {{edit-field editField=field}}
+    </td>
+    {{/each}}
 
-    </tr>
+  </tr>
   {{/each}}
+
 </table>
 
-<button {{action 'addRoom'}}>Add room</button>
-
-{{yield}}
+{{#if showDetailsComp}}
+  {{room-details chosenRoom=chosenRoom}}
+{{/if}}

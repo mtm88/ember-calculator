@@ -8,6 +8,7 @@ hr {
   height: 1px;
   margin-top: 50px;
   margin-bottom: 30px;
+  width: 100%;
 }
 
 table td {
@@ -25,4 +26,8 @@ button {
 
 [warning-text] {
   color: #FF0000;
+}
+
+[bold] {
+  font-weight: bold;
 }

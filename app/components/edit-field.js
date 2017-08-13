@@ -9,7 +9,6 @@ export default Ember.Component.extend({
       return true;
     }
   }),
-  typeIsText: Ember.computed.equal('editField.type', 'text'),
   typeIsPickADate: Ember.computed.equal('editField.type', 'pickADate'),
   typeIsConstant: Ember.computed.equal('editField.type', 'constant'),
   typeIsSiteInputValue: Ember.computed.equal('editField.type', 'siteInputValue'),
