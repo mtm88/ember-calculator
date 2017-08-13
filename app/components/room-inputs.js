@@ -286,6 +286,12 @@ export default Ember.Component.extend({
                 type: 'select',
                 value: '',
               },
+              {
+                name: 'U-value',
+                label: 'U-value (W/m2K)',
+                type: 'number',
+                value: 0,
+              },
             ]
           }
           Ember.set(room, 'walls', [...room.walls, newWall]);
@@ -319,6 +325,12 @@ export default Ember.Component.extend({
                 ],
                 value: '',
               },
+              {
+                name: 'U-value',
+                label: 'U-value (W/m2K)',
+                type: 'number',
+                value: 0,
+              },
             ],
           };
           Ember.set(room, 'groundFloors', [...room.groundFloors, newGroundFloor]);
@@ -336,7 +348,49 @@ export default Ember.Component.extend({
                   type: 'select',
                   options: wallDescriptions,
                   value: '',
-                }
+                },
+                {
+                  name: 'windowHeight',
+                  label: 'Window/door height (m)',
+                  type: 'number',
+                  value: 0,
+                },
+                {
+                  name: 'windowWidth',
+                  label: 'Window/door width (m)',
+                  type: 'number',
+                  value: 0,
+                },
+                {
+                  name: 'glazingType',
+                  label: 'Frame/glazing type',
+                  type: 'select',
+                  options: [
+                    'Wood/PVC Single',
+                    'Wood/PVC Double',
+                    'Wood/PVC Double, low-E glass',
+                    'Wood/PVC Double, low-E glass, argon filled',
+                    'Wood/PVC Triple',
+                    'Wood/PVC Triple, low-E glass',
+                    'Wood/PVC Triple, low-E glass, argon filled',
+                    'Metal Single',
+                    'Metal Double',
+                    'Metal Double, low-E glass',
+                    'Metal Double, low-E glass, argon filled',
+                    'Metal Triple',
+                    'Metal Triple, low-E glass',
+                    'Metal Triple, low-E glass, argon filled',
+                    'Secondary glazing',
+                    'solid wood door (external)',
+                    'Solid wood door to unheated corridor',
+                  ],
+                },
+                {
+                  name: 'U-value',
+                  label: 'U-value (W/m2K)',
+                  type: 'number',
+                  value: 0,
+                },
               ],
             };
             Ember.set(room, 'windows', [...room.windows, newWindow]);

@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
 
   roomFields: Ember.computed.alias('chosenRoom.fields'),
+  walls: Ember.computed.alias('chosenRoom.walls'),
 
   didReceiveAttrs() {
     this.bindFields();
@@ -14,10 +15,24 @@ export default Ember.Component.extend({
 
   bindFields() {
     const roomFields = this.get('roomFields');
+
     if (roomFields && !Ember.isEmpty(roomFields)) {
       roomFields.forEach((room) => {
         this.set(room.name, room.value);
       });
+
+      const walls = this.get('walls');
+      const remappedWalls = [];
+      if (walls && !Ember.isEmpty(walls)) {
+        walls.forEach((wall, i) => {
+          remappedWalls[i] = {};
+          wall.fields.forEach((field) => {
+            remappedWalls[i][field.name] = field;
+          });
+        });
+      }
+
+      this.set('remappedWalls', remappedWalls);
     }
   },
 
