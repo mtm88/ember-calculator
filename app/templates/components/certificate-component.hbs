@@ -1,13 +1,271 @@
 <h2>Certificate</h2>
+<h3>Low-temperature domestic heating systems - Calculation tool Design, Installation and Commissioning Certificate</h3>
 
-<table>
-  {{#each certificateFields as |field|}}
-    <tr>
-      <td>
-        {{edit-field editField=field siteInputsConfig=siteInputsConfig}}
-      </td>
-    </tr>
-  {{/each}}
+<table certificate-table>
+
+  <tr>
+    <td>
+      Site Address:
+    </td>
+    <td>
+      <input>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Date installation was commissioned
+    </td>
+    <td>
+      {{pick-a-date date=(readonly installationDate) on-selected=(action (mut installationDate)) placeholder="Pick a date" options=(readonly
+      extraPickadateOptions)}}
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Type of heat generator (boiler/heat pump/other)
+    </td>
+    <td>
+      {{#power-select options=genTypes onchange=(action (mut selectedGenType)) selected=selectedGenType as |genType| }} {{genType}}
+      {{/power-select}}
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Heat loss calculator used for the design (must conform to UK National Annex of EN12831)
+    </td>
+    <td>
+      BRE Calculation tool for design of low temperature domestic heating systems
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Assumed Design External Temperature (DET) for heat loss calculations
+    </td>
+    <td>
+      {{DETForHeatLoss}}
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Confirm that assumed internal temperatures were as given in Table 2 of the guide*. If there are any exceptions they should
+      be listed here.
+    </td>
+    <td>
+      {{#power-select options=confirmTempOpts onchange=(action (mut selectedTempOpts)) selected=selectedTempOpts as |tempOpt| }}
+      {{tempOpt}} {{/power-select}}
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Total building heat loss on the design day, in kW
+    </td>
+    <td>
+      {{totalHeatLossDay}} TO BE DEFINED
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Has the installation has been designed for intermittent heating or continuous heating?
+    </td>
+    <td>
+      {{typeOfHeating}}
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      "If the installation has been designed for intermittent heating, (a) the uplift factor applied to the building heat loss,
+      and (b) the uplift factor applied to the heat generator"
+    </td>
+    <td>
+      {{upliftFactor}}
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Mean Water Temperature (MWT) assumed in the design
+    </td>
+    <td>
+      {{MWT}} TO BE DEFINED
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Oversize Factor for Actual Radiators / Convectors (only)
+    </td>
+    <td>
+      {{oversizeFactor}} TO BE DEFINED
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      "Underfloor heating (only): System Performance Factor (KH) (W/m2K) Minimum pipe spacing (mm)"
+    </td>
+    <td>
+      {{underfloorHeating}} TO BE DEFINED
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Design flow temperature (Tf) which is permanently set on the heat generator during commissioning.
+    </td>
+    <td>
+      {{designFlowTemp}}
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Describe temperature-limiting control installed to ensure design flow temperature (Tf) from heat generator is not exceeded
+      while the system is providing space heating
+    </td>
+    <td>
+      <input>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Has a blending valve been installed for specific rooms with UFH to limit the Floor Surface Temperature?
+    </td>
+    <td>
+      {{blendingValve}}
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      If the heat generator also provides hot water service, state what controls are used to ensure it does not supply hot water
+      services and space heating service simultaneously
+    </td>
+    <td>
+      <input>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Confirm that the control settings have been recorded for reference in future and a permanent label or suitable permanent
+      documentation is supplied in close proximity to the controls or heat generator stating the required settings. Confirm
+      location.
+    </td>
+    <td>
+      <input>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      If the heat generator is a heat pump or biomass boiler, state if the installation has been designed in accordance with the
+      Microgeneration Certification Scheme (MCS) standards
+    </td>
+    <td>
+      {{#power-select options=MCSStandardsOptions onchange=(action (mut selectedMCSStandardOpt)) selected=selectedMCSStandardOpt
+      as |mcsStandard| }} {{mcsStandard}} {{/power-select}}
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan='2'>
+      I certify that:
+      <p>
+        (i) the central heating installation at the premises whose address is shown above has been designed for low-temperature operation
+        in accordance with the guide*
+      </p>
+      <p>
+        (ii) the design included a heat loss calculation for every room of the building that is heated by the installation
+      </p>
+      <p>
+        (iii) the installation conforms with the design
+      </p>
+      <p>
+        (iv) controls to ensure continued low-temperature operation (limiting flow temperature) have been installed and commissioned
+        in accordance with the design and cannot be overridden by the householder
+      </p>
+      <p>
+        (v) controls to prevent simultaneous space heating and hot water service have been installed
+      </p>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Name (print)
+    </td>
+    <td>
+      <input>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Signature
+    </td>
+    <td>
+
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Position/qualification
+    </td>
+    <td>
+      <input>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      If installed by a Microgeneration Certification Scheme (MCS) installation company in compliance with MCS standards, give
+      name, address and certification number of the MCS installation company
+    </td>
+    <td>
+      <input>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Date
+    </td>
+    <td>
+      {{pick-a-date date=(readonly signDate) on-selected=(action (mut signDate)) placeholder="Pick a date" options=(readonly extraPickadateOptions)}}
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan='2'>
+      <p>
+        * BRE Trust Report FB 59, Design of low-low temperature domestic heating systems, available from: www.brebookshop.com
+      </p>
+
+      <p>
+        NOTE: For SAP purposes, the person responsible for the heating system design must be competent to do so, with evidence demonstrating
+        competency available upon request. This Certificate must be supplied to the dwelling SAP assessor, whilst a copy
+        should be retained for own records and supplied to Building Control (if requested).
+      </p>
+
+      <p>
+        <span warning-text>
+          Disclaimer: Building Research Establishment Ltd. makes no representation or warranty that the content of this calculation
+        tool is suitable for any use or that it constitutes accurate data and/or advice.
+        </span>
+      </p>
+    </td>
+  </tr>
+
 </table>
 
 {{yield}}

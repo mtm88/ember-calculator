@@ -13,9 +13,9 @@
 <button {{action 'setTab' 'currentResultsTab' 'emitterSpecifications'}}>Emitter Specifications</button>
 
 {{#if certificateTab}}
-  {{certificate-component siteInputsConfig=siteInputsConfig}}
+  {{certificate-component siteInputsConfig=siteInputsConfig roomInputsConfig=roomInputsConfig}}
 {{else if emitterSpecTab}}
-  {{emiterSpec-component siteInputsConfig=siteInputsConfig}}
+  {{emiterSpec-component siteInputsConfig=siteInputsConfig roomInputsConfig=roomInputsConfig}}
 {{/if}}
 
 {{yield}}

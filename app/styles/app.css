@@ -18,3 +18,11 @@ table td {
 button {
   margin-top: 30px;
 }
+
+[certificate-table] {
+  width: 80%;
+}
+
+[warning-text] {
+  color: #FF0000;
+}
