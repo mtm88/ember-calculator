@@ -2,7 +2,7 @@
 
 <button {{action 'addRoom'}}>Add room</button> {{yield}}
 
-<table>
+<table roomDetails>
   {{#each rooms as |room index|}}
   <tr>
 
@@ -23,5 +23,5 @@
 </table>
 
 {{#if showDetailsComp}}
-  {{room-details chosenRoom=chosenRoom}}
+  {{room-details chosenRoom=chosenRoom siteInputsConfig=siteInputsConfig}}
 {{/if}}

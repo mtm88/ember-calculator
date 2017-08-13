@@ -50,6 +50,31 @@ export default Ember.Component.extend({
     return null;
   }),
 
+  roomVolume: Ember.computed('chosenRoom.fields.@each.value', function roomVolume() {
+    const width = this.get('roomWidth');
+    const height = this.get('roomHeight');
+    const length = this.get('roomLength');
+    if (width && height && length) {
+      return width * height * length;
+    }
+    return null;
+  }),
+
+  DTD: Ember.computed('siteInputsConfig.@each.value', function DTD() {
+    return this.get('siteInputsConfig').find(field => field.name === 'DETinC').value;
+  }),
+
+  heatLoss: Ember.computed('roomVolume', function heatLoss() {
+    const roomVolume = this.get('roomVolume');
+    const ventilationRate = this.get('ventilationRate');
+    const DTD = this.get('DTD');
+
+    if (roomVolume && roomVolume > 0 && ventilationRate && DTD) {
+      return Math.round(0.33 * roomVolume * ventilationRate * DTD, 2);
+    }
+    return 0;
+  }),
+
   ventilationTable: {
     'Living Room': {
       DRT: 21,

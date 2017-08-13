@@ -31,3 +31,7 @@ button {
 [bold] {
   font-weight: bold;
 }
+
+[roomDetails] {
+  font-size: 11px;
+}
