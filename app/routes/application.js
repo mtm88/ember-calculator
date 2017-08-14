@@ -6,6 +6,7 @@ export default Ember.Route.extend({
       ventilationTable: Ember.$.getJSON('/ventilationTable.json'),
       altVentRates: Ember.$.getJSON('/altVentRates.json'),
       constructionOptions: Ember.$.getJSON('/constructionOpts.json'),
-    })
-  }
+      windowsDoors: Ember.$.getJSON('/windowsDoors.json'),
+    });
+  },
 });

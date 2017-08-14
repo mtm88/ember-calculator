@@ -6,6 +6,7 @@ export default Ember.Component.extend({
   roomFields: Ember.computed.alias('chosenRoom.fields'),
   walls: Ember.computed.alias('chosenRoom.walls'),
   groundFloors: Ember.computed.alias('chosenRoom.groundFloors'),
+  windows: Ember.computed.alias('chosenRoom.windows'),
 
   didReceiveAttrs() {
     this.bindFields();
@@ -24,6 +25,13 @@ export default Ember.Component.extend({
       });
     }
 
+    this.remapWalls();
+    this.remapGroundFloors();
+    this.remapWindows();
+
+  },
+
+  remapWalls() {
     const walls = this.get('walls');
     const remappedWalls = new Ember.A();
 
@@ -37,9 +45,12 @@ export default Ember.Component.extend({
         this.set('remappedWalls', remappedWalls);
       });
     }
+  },
 
+  remapGroundFloors() {
     const groundFloors = this.get('groundFloors');
     const remappedGroundFloors = new Ember.A();
+
     if (groundFloors && !Ember.isEmpty(groundFloors)) {
       groundFloors.forEach((groundFloor) => {
         const mappedGroundFloor = new Ember.Object();
@@ -50,7 +61,22 @@ export default Ember.Component.extend({
         this.set('remappedGroundFloors', remappedGroundFloors);
       });
     }
+  },
 
+  remapWindows() {
+    const windows = this.get('windows');
+    const remappedWindows = new Ember.A();
+
+    if (windows && !Ember.isEmpty(windows)) {
+      windows.forEach((window) => {
+        const mappedWindow = new Ember.Object();
+        window.fields.forEach((field) => {
+          mappedWindow[field.name] = field;
+        });
+        remappedWindows.pushObject(mappedWindow);
+        this.set('remappedWindows', remappedWindows);
+      });
+    }
   },
 
   ventilationRate: Ember.computed('chosenRoom.fields.@each.value', function ventilationRate() {

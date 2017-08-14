@@ -1,0 +1,66 @@
+[
+  {
+    "name": "Wood/PVC Single",
+    "value": 4.8
+  },
+  {
+    "name": "Wood/PVC Double",
+    "value": 2.8
+  },
+  {
+    "name": "Wood/PVC Double, low-E glass",
+    "value": 2.38
+  },
+  {
+    "name": "Wood/PVC Double, low-E glass, argon filled",
+    "value": 2.1
+  },
+  {
+    "name": "Wood/PVC Triple",
+    "value": 2.1
+  },
+  {
+    "name": "Wood/PVC Triple, low-E glass",
+    "value": 1.7
+  },
+  {
+    "name": "Metal Single",
+    "value": 5.7
+  },
+  {
+    "name": "Metal Double",
+    "value": 3.4
+  },
+  {
+    "name": "Metal Double, low-E glass",
+    "value": 2.8
+  },
+  {
+    "name": "Metal Double, low-E glass, argon filled",
+    "value": 2.6
+  },
+  {
+    "name": "Metal Triple",
+    "value": 2.6
+  },
+  {
+    "name": "Metal Triple, low-E glass",
+    "value": 2.1
+  },
+  {
+    "name": "Metal Triple, low-E glass, argon filled",
+    "value": 2
+  },
+  {
+    "name": "Secondary glazing",
+    "value": 2.4
+  },
+  {
+    "name": "solid wood door (external)",
+    "value": 3
+  },
+  {
+    "name": "Solid wood door to unheated corridor",
+    "value": 1.4
+  }
+]
