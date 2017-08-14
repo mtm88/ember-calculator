@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import DS from 'ember-data';
 
 export default Ember.Component.extend({
 
@@ -42,17 +43,16 @@ export default Ember.Component.extend({
     const roomFields = this.get('roomFields');
     const chimneyField = roomFields.find(field => field.name === 'chimneyType');
     const roomType = this.get('roomType');
-
     if (roomType) {
+      const { ventilationTable, altVentRates } = this.get('model');
       if (chimneyField.value === 'No chimney or open fire') {
-        const ventilationTable = this.get('ventilationTable');
         if (ventilationTable) {
           return ventilationTable[roomType].VCR.pre2000;
         }
       } else if (chimneyField.value) {
-        const alternativeVentRates = this.get('alternativeVentRates');
-        if (alternativeVentRates) {
-          return Math.max(...alternativeVentRates[chimneyField.value]);
+        debugger;
+        if (altVentRates) {
+          return Math.max(...altVentRates[chimneyField.value]);
         }
       }
     }
@@ -93,73 +93,6 @@ export default Ember.Component.extend({
     }
     return 0;
   }),
-
-  ventilationTable: {
-    'Living Room': {
-      DRT: 21,
-      VCR: {
-        pre2000: 1.5,
-        '2000': 1,
-        past2006: 0.5,
-      }
-    },
-    'Dining Room': {
-      DRT: 21,
-      VCR: {
-        pre2000: 1.5,
-        '2000': 1,
-        past2006: 0.5,
-      }
-    },
-    'Bedsitting Room': {
-      DRT: 21,
-      VCR: {
-        pre2000: 1.5,
-        '2000': 1,
-        past2006: 0.5,
-      }
-    },
-    'Bedroom': {
-      DRT: 18,
-      VCR: {
-        pre2000: 1,
-        '2000': 1,
-        past2006: 0.5,
-      }
-    },
-    'Hall and Landing': {
-      DRT: 18,
-      VCR: {
-        pre2000: 2,
-        '2000': 1,
-        past2006: 0.5,
-      }
-    },
-    'Kitchen': {
-      DRT: 18,
-      VCR: {
-        pre2000: 2,
-        '2000': 1.5,
-        past2006: 1.5,
-      }
-    },
-    'Bathroom': {
-      DRT: 22,
-      VCR: {
-        pre2000: 3,
-        '2000': 1.5,
-        past2006: 0.5,
-      }
-    },
-    'Toilet': {
-      DRT: 18,
-      VCR: {
-        pre2000: 3,
-        '2000': 1.5,
-        past2006: 1.5,
-      }
-    },
-  },
 
   alternativeVentRates: {
     'Without throat restrictor fitted to flue': [5, 4],

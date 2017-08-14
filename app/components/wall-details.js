@@ -30,9 +30,8 @@ export default Ember.Component.extend({
     if (wall && wall.construction && wall.construction.value) {
       const constrValue = wall.construction.value;
       if (constrValue) {
-        const { constructionOptions } = await Ember.$.getJSON('/constructionOpts.json');
+        const { constructionOptions } = this.get('model');
         const uValue = constructionOptions.find(option => option.name === constrValue).value;
-        debugger;
         Ember.set(wall, 'uValue', uValue);
       }
     }

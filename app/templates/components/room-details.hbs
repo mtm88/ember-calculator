@@ -1,5 +1,6 @@
 <hr>
 <table roomDetails>
+
   <tr>
     <td bold>Room Name</td>
     <td>{{roomName}}</td>
@@ -79,7 +80,7 @@
 
 <table roomDetails>
   {{#each remappedWalls as |wall|}}
-    {{wall-details wall=wall}}
+    {{wall-details wall=wall model=model}}
   {{/each}}
 </table>
 
