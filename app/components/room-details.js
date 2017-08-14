@@ -50,7 +50,6 @@ export default Ember.Component.extend({
           return ventilationTable[roomType].VCR.pre2000;
         }
       } else if (chimneyField.value) {
-        debugger;
         if (altVentRates) {
           return Math.max(...altVentRates[chimneyField.value]);
         }
@@ -60,13 +59,11 @@ export default Ember.Component.extend({
 
   DRT: Ember.computed('chosenRoom.fields.@each.value', function DRT() {
     const roomType = this.get('roomType');
-    return Ember.$.getJSON('/ventilationTable.json')
-      .then((jsonData) => {
-        if (roomType.length > 0 && jsonData) {
-          return parseInt(jsonData[roomType].DRT, 10);
-        }
-        return null;
-      });
+    const { ventilationTable } = this.get('model');
+    if (roomType.length > 0 && ventilationTable) {
+      return parseInt(ventilationTable[roomType].DRT, 10);
+    }
+    return null;
   }),
 
   roomVolume: Ember.computed('chosenRoom.fields.@each.value', function roomVolume() {
@@ -79,24 +76,23 @@ export default Ember.Component.extend({
     return null;
   }),
 
-  DTD: Ember.computed('siteInputsConfig.@each.value', function DTD() {
-    return this.get('siteInputsConfig').find(field => field.name === 'DETinC').value;
+  DTD: Ember.computed('siteInputsConfig.@each.value', 'ventilationRate', function DTD() {
+    const DRT = this.get('DRT');
+    const DETinC = this.get('siteInputsConfig').find(field => field.name === 'DETinC').value;
+    if (DRT && DETinC) {
+      return DRT - DETinC;
+    }
+    return null;
   }),
 
   heatLoss: Ember.computed('roomVolume', function heatLoss() {
     const roomVolume = this.get('roomVolume');
     const ventilationRate = this.get('ventilationRate');
     const DTD = this.get('DTD');
-
     if (roomVolume && roomVolume > 0 && ventilationRate && DTD) {
       return Math.round(0.33 * roomVolume * ventilationRate * DTD, 2);
     }
     return 0;
   }),
-
-  alternativeVentRates: {
-    'Without throat restrictor fitted to flue': [5, 4],
-    'With throat restrictor fitted to flue': [3, 2],
-  },
 
 });

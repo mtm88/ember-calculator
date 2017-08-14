@@ -3,20 +3,29 @@ import Ember from 'ember';
 export default Ember.Component.extend({
 
   didReceiveAttrs() {
-    this.calculateWallsParams();
+    this.mapArea();
     this.mapUValue();
+    this.mapDTD();
+    this.mapHeatLoss();
   },
 
   observeFields: Ember.observer(
     'wall.heightOrLength.value',
     'wall.width.value',
     'wall.construction.value',
+    'wall.DRT.value',
+    'wall.spaceType.value',
+    'wall.area',
+    'wall.uValue',
+    'wall.U-value.value',
     function observeFields() {
-      this.calculateWallsParams();
+      this.mapArea();
       this.mapUValue();
+      this.mapDTD();
+      this.mapHeatLoss();
     }),
 
-  calculateWallsParams() {
+  mapArea() {
     const wall = this.get('wall');
     if (wall && Object.keys(wall).length > 0) {
       const wallWidth = wall.heightOrLength.value;
@@ -25,7 +34,7 @@ export default Ember.Component.extend({
     }
   },
 
-  async mapUValue() {
+  mapUValue() {
     const wall = this.get('wall');
     if (wall && wall.construction && wall.construction.value) {
       const constrValue = wall.construction.value;
@@ -35,6 +44,32 @@ export default Ember.Component.extend({
         Ember.set(wall, 'uValue', uValue);
       }
     }
+  },
+
+  mapDTD() {
+    const wall = this.get('wall');
+    const DRT = this.get('DRT');
+    const { ventilationTable } = this.get('model');
+    const spaceType = this.get('wall.spaceType').value;
+    if (ventilationTable[spaceType]) {
+      const relatedTemp = ventilationTable[spaceType].DRT;
+      Ember.set(wall, 'adjustedDTD', DRT - relatedTemp);
+    }
+    return 0;
+  },
+
+  mapHeatLoss() {
+    const wall = this.get('wall');
+    const area = wall.area;
+    const constrValue = wall.construction.value;
+    const uValue = wall.uValue;
+    const overridenUValue = wall['U-value'].value;
+    const adjustedDTD = wall.adjustedDTD;
+    if (constrValue && area && !isNaN(adjustedDTD)) {
+      const validUValue = overridenUValue || uValue;
+      Ember.set(wall, 'heatLoss', validUValue * adjustedDTD * area);
+    }
+    return null;
   },
 
 });

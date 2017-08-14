@@ -1,14 +1,14 @@
 <tr>
-    <th>Name of wall, floor, ceiling</th>
-    <th>Space on other side</th>
-    <th>Height or length (m)</th>
-    <th>Width (m)</th>
-    <th>Area (m²)</th>
-    <th>Construction</th>
-    <th>Entered U-_x001E_value (W/m²K), if required</th>
-    <th>U-value (W/m²K)</th>
-    <th>Design temperature difference</th>
-    <th>Heat loss (W)</th>
+  <th>Name of wall, floor, ceiling</th>
+  <th>Space on other side</th>
+  <th>Height or length (m)</th>
+  <th>Width (m)</th>
+  <th>Area (m²)</th>
+  <th>Construction</th>
+  <th>Entered U-_x001E_value (W/m²K), if required</th>
+  <th>U-value (W/m²K)</th>
+  <th>Design temperature difference</th>
+  <th>Heat loss (W)</th>
 </tr>
 
 <tr>
@@ -36,7 +36,12 @@
   <td>
     {{wall.uValue}}
   </td>
+  <td>
+    {{wall.adjustedDTD}}
+  </td>
+  <td>
+    {{wall.heatLoss}}
+  </td>
 </tr>
 
 {{yield}}
-
