@@ -84,5 +84,15 @@
   {{/each}}
 </table>
 
+<h3>
+    Ground floors
+</h3>
+
+<table roomDetails>
+  {{#each remappedGroundFloors as |groundFloor|}}
+    {{groundfloor-details groundFloor=groundFloor model=model DRT=DRT siteInputsConfig=siteInputsConfig}}
+  {{/each}}
+</table>
+
 
 {{yield}}

@@ -5,6 +5,7 @@ export default Ember.Component.extend({
 
   roomFields: Ember.computed.alias('chosenRoom.fields'),
   walls: Ember.computed.alias('chosenRoom.walls'),
+  groundFloors: Ember.computed.alias('chosenRoom.groundFloors'),
 
   didReceiveAttrs() {
     this.bindFields();
@@ -34,6 +35,19 @@ export default Ember.Component.extend({
         });
         remappedWalls.pushObject(mappedWall);
         this.set('remappedWalls', remappedWalls);
+      });
+    }
+
+    const groundFloors = this.get('groundFloors');
+    const remappedGroundFloors = new Ember.A();
+    if (groundFloors && !Ember.isEmpty(groundFloors)) {
+      groundFloors.forEach((groundFloor) => {
+        const mappedGroundFloor = new Ember.Object();
+        groundFloor.fields.forEach((field) => {
+          mappedGroundFloor[field.name] = field;
+        });
+        remappedGroundFloors.pushObject(mappedGroundFloor);
+        this.set('remappedGroundFloors', remappedGroundFloors);
       });
     }
 
