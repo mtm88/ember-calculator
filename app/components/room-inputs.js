@@ -130,7 +130,9 @@ export default Ember.Component.extend({
     add(type, i) {
       const _this = this;
       const room = this.get('rooms').find((room, index) => index === i);
+
       switch (type) {
+
         case 'wall': {
           const newWall = {
             fields: [
@@ -192,6 +194,7 @@ export default Ember.Component.extend({
           room.set('walls', [...room.walls, newWall]);
           break;
         }
+
         case 'groundFloor': {
           const newGroundFloor = {
             fields: [
@@ -250,6 +253,7 @@ export default Ember.Component.extend({
           room.set('groundFloors', [...room.groundFloors, newGroundFloor]);
           break;
         }
+
         case 'window': {
           const relatedWalls = room.walls;
           const wallDescriptions = relatedWalls.map(wall => wall.fields.find(field => field.name === 'description').value);
@@ -292,7 +296,6 @@ export default Ember.Component.extend({
             room.set('windows', [...room.windows, newWindow]);
           }
           break;
-
         }
       }
       return;

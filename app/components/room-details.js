@@ -12,7 +12,8 @@ export default Ember.Component.extend({
     this.bindFields();
   },
 
-  observeFields: Ember.observer('roomFields.@each.value', function observeFields() {
+  observeFields: Ember.observer('roomFields.@each.value', function observeFields()
+  {
     this.bindFields();
   }),
 
@@ -42,9 +43,11 @@ export default Ember.Component.extend({
           mappedWall[field.name] = field;
         });
         remappedWalls.pushObject(mappedWall);
+
         this.set('remappedWalls', remappedWalls);
       });
     }
+
   },
 
   remapGroundFloors() {
@@ -58,9 +61,11 @@ export default Ember.Component.extend({
           mappedGroundFloor[field.name] = field;
         });
         remappedGroundFloors.pushObject(mappedGroundFloor);
+
         this.set('remappedGroundFloors', remappedGroundFloors);
       });
     }
+
   },
 
   remapWindows() {
@@ -74,64 +79,86 @@ export default Ember.Component.extend({
           mappedWindow[field.name] = field;
         });
         remappedWindows.pushObject(mappedWindow);
+
         this.set('remappedWindows', remappedWindows);
       });
     }
+
   },
 
-  ventilationRate: Ember.computed('chosenRoom.fields.@each.value', function ventilationRate() {
+  ventilationRate: Ember.computed('chosenRoom.fields.@each.value', function ventilationRate()
+  {
     const roomFields = this.get('roomFields');
     const chimneyField = roomFields.find(field => field.name === 'chimneyType');
     const roomType = this.get('roomType');
+
     if (roomType) {
       const { ventilationTable, altVentRates } = this.get('model');
+
       if (chimneyField.value === 'No chimney or open fire') {
+
         if (ventilationTable) {
           return ventilationTable[roomType].VCR.pre2000;
         }
-      } else if (chimneyField.value) {
+
+      }
+      else if (chimneyField.value) {
+
         if (altVentRates) {
           return Math.max(...altVentRates[chimneyField.value]);
         }
+
       }
     }
   }),
 
-  DRT: Ember.computed('chosenRoom.fields.@each.value', function DRT() {
+  DRT: Ember.computed('chosenRoom.fields.@each.value', function DRT()
+  {
     const roomType = this.get('roomType');
     const { ventilationTable } = this.get('model');
+
     if (roomType.length > 0 && ventilationTable) {
       return parseInt(ventilationTable[roomType].DRT, 10);
     }
+
     return null;
   }),
 
-  roomVolume: Ember.computed('chosenRoom.fields.@each.value', function roomVolume() {
+  roomVolume: Ember.computed('chosenRoom.fields.@each.value', function roomVolume()
+  {
     const width = this.get('roomWidth');
     const height = this.get('roomHeight');
     const length = this.get('roomLength');
+
     if (width && height && length) {
       return width * height * length;
     }
+
     return null;
   }),
 
-  DTD: Ember.computed('siteInputsConfig.@each.value', 'ventilationRate', function DTD() {
+  DTD: Ember.computed('siteInputsConfig.@each.value', 'ventilationRate', function DTD()
+  {
     const DRT = this.get('DRT');
     const DETinC = this.get('siteInputsConfig').find(field => field.name === 'DETinC').value;
+
     if (DRT && DETinC) {
       return DRT - DETinC;
     }
+
     return null;
   }),
 
-  heatLoss: Ember.computed('roomVolume', function heatLoss() {
+  heatLoss: Ember.computed('roomVolume', function heatLoss()
+  {
     const roomVolume = this.get('roomVolume');
     const ventilationRate = this.get('ventilationRate');
     const DTD = this.get('DTD');
+
     if (roomVolume && roomVolume > 0 && ventilationRate && DTD) {
       return Math.round(0.33 * roomVolume * ventilationRate * DTD, 2);
     }
+
     return 0;
   }),
 

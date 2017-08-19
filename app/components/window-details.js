@@ -12,27 +12,34 @@ export default Ember.Component.extend({
     'window.windowWidth.value',
     'window.typeOfWall.value',
     'remappedWalls.@each.uValue',
-    function observeFields() {
+    function observeFields()
+    {
       this.mapArea();
       this.mapUValue();
     }),
 
   mapArea() {
     const window = this.get('window');
+
     if (window && Object.keys(window).length > 0) {
       const windowHeight = window.windowHeight.value;
       const windowWidth = window.windowWidth.value;
+
       window.set('area', windowHeight * windowWidth);
     }
+
   },
 
   mapUValue() {
     const window = this.get('window');
     const typeOfWall = window.typeOfWall.value;
+
     if (typeOfWall) {
       const relatedWall = this.get('remappedWalls').find(wall => wall.description.value === typeOfWall)['U-value'].value;
+
       window.set('uValue', relatedWall);
     }
+
     return null;
   },
 
