@@ -78,21 +78,17 @@
     Walls, floors not ground floors and ceiling
 </h3>
 
-<table roomDetails>
-  {{#each remappedWalls as |wall|}}
+  {{#each walls as |wall|}}
     {{wall-details wall=wall model=model DRT=DRT}}
   {{/each}}
-</table>
 
 <h3>
     Ground floors
 </h3>
 
-<table roomDetails>
-  {{#each remappedGroundFloors as |groundFloor|}}
-    {{groundfloor-details groundFloor=groundFloor DRT=DRT siteInputsConfig=siteInputsConfig}}
+  {{#each groundFloors as |groundFloor|}}
+    {{groundfloor-details groundFloor=groundFloor model=model DRT=DRT siteInputsConfig=siteInputsConfig}}
   {{/each}}
-</table>
 
 <h3>
     Windows and doors
@@ -100,9 +96,15 @@
 
 <table roomDetails>
   {{#each remappedWindows as |window|}}
-    {{window-details window=window remappedWalls=remappedWalls}}
+    {{window-details window=window remappedWalls=remappedWalls model=model}}
   {{/each}}
 </table>
+
+<h3>
+  Room heat loss (W): {{combinedHeatLoss}}
+</h3>
+
+
 
 
 {{yield}}

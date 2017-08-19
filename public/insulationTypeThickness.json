@@ -1,0 +1,56 @@
+[
+  {
+    "name": "Solid floor - Enter a U-value",
+    "value": 0
+  },
+  {
+    "name": "Solid no insulation",
+    "value": 1,
+    "col": 3
+  },
+  {
+    "name": "Solid 25mm insulation",
+    "value": 2,
+    "col": 4
+  },
+  {
+    "name": "Solid 50mm insulation",
+    "value": 3,
+    "col": 5
+  },
+  {
+    "name": "Solid 75mm insulation",
+    "value": 4,
+    "col": 6
+  },
+  {
+    "name": "Solid 100mm insulation",
+    "value": 5,
+    "col": 7
+  },
+  {
+    "name": "Suspended no insulation",
+    "value": 6,
+    "col": 10
+  },
+  {
+    "name": "Suspended 25mm insulation",
+    "value": 7,
+    "col": 11
+  },
+  {
+    "name": "Suspended 50mm insulation",
+    "value": 8,
+    "col": 12
+  },
+  {
+    "name": "Suspended 75mm insulation",
+    "value": 9,
+    "col": 13
+  },
+  {
+    "name": "Suspended 100mm insulation",
+    "value": 10,
+    "col": 14
+  }
+]

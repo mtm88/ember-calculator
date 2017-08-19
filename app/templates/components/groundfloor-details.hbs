@@ -1,39 +1,11 @@
-<tr>
-  <th>Short length (m)</th>
-  <th>long length (m)</th>
-  <th>Edges exposed</th>
-  <th>Insulation type and thickness</th>
-  <th>Area (m²)</th>
-  <th>U-value (W/m²K)</th>
-  <th>Design temperature difference</th>
-  <th>Heat loss (W)</th>
-</tr>
+  <table roomDetails>
 
-<tr>
-  <td>
-    {{groundFloor.shortLength.value}}
-  </td>
-  <td>
-    {{groundFloor.longLength.value}}
-  </td>
-  <td>
-    {{groundFloor.edgesExposed.value}}
-  </td>
-  <td>
-    {{groundFloor.insulationType.value}}
-  </td>
-  <td>
-    {{groundFloor.area}}
-  </td>
-  <td>
-    {{groundFloor.U-value.value}}
-  </td>
-  <td>
-    {{groundFloor.adjustedDTD}}
-  </td>
-  <td>
-    {{groundFloor.heatLoss}}
-  </td>
-</tr>
+  {{#each groundFloor.fields as |field|}}
+    <tr>
+      <td>{{field.label}}: </td>
+      <td>{{field.value}}</td>
+    </tr>
+  {{/each}}
 
+</table>
 {{yield}}

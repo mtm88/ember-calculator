@@ -7,6 +7,9 @@ export default Ember.Route.extend({
       altVentRates: Ember.$.getJSON('/altVentRates.json'),
       constructionOptions: Ember.$.getJSON('/constructionOpts.json'),
       windowsDoors: Ember.$.getJSON('/windowsDoors.json'),
+      insulationTypeThickness: Ember.$.getJSON('/insulationTypeThickness.json'),
+      edgesExposed: Ember.$.getJSON('/edgesExposed.json'),
+      uValues: Ember.$.getJSON('/uValues.json'),
     });
   },
 });

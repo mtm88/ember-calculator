@@ -1,5 +1,9 @@
 [
   {
+    "name": "Enter U-value",
+    "value": 0
+  },
+  {
     "name": "Brick102 mm, plaster",
     "value": 2.97
   },

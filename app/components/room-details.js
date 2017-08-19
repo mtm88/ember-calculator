@@ -25,47 +25,46 @@ export default Ember.Component.extend({
       });
     }
 
-    this.remapWalls();
-    this.remapGroundFloors();
+    // this.remapWalls();
+    // this.remapGroundFloors();
     this.remapWindows();
 
   },
 
-  remapWalls() {
-    const walls = this.get('walls');
-    const remappedWalls = [];
+  // remapWalls() {
+  //   const walls = this.get('walls');
+  //   const remappedWalls = [];
+  //   if (walls && !Ember.isEmpty(walls)) {
+  //     walls.forEach((wall) => {
+  //       const mappedWall = new Ember.Object();
+  //       wall.fields.forEach((field) => {
+  //         mappedWall[field.name] = field;
+  //       });
+  //       remappedWalls.pushObject(mappedWall);
 
-    if (walls && !Ember.isEmpty(walls)) {
-      walls.forEach((wall) => {
-        const mappedWall = new Ember.Object();
-        wall.fields.forEach((field) => {
-          mappedWall[field.name] = field;
-        });
-        remappedWalls.pushObject(mappedWall);
+  //       this.set('remappedWalls', remappedWalls);
+  //     });
+  //   }
 
-        this.set('remappedWalls', remappedWalls);
-      });
-    }
+  // },
 
-  },
+  // remapGroundFloors() {
+  //   const groundFloors = this.get('groundFloors');
+  //   const remappedGroundFloors = [];
 
-  remapGroundFloors() {
-    const groundFloors = this.get('groundFloors');
-    const remappedGroundFloors = [];
+  //   if (groundFloors && !Ember.isEmpty(groundFloors)) {
+  //     groundFloors.forEach((groundFloor) => {
+  //       const mappedGroundFloor = new Ember.Object();
+  //       groundFloor.fields.forEach((field) => {
+  //         mappedGroundFloor[field.name] = field;
+  //       });
+  //       remappedGroundFloors.pushObject(mappedGroundFloor);
 
-    if (groundFloors && !Ember.isEmpty(groundFloors)) {
-      groundFloors.forEach((groundFloor) => {
-        const mappedGroundFloor = new Ember.Object();
-        groundFloor.fields.forEach((field) => {
-          mappedGroundFloor[field.name] = field;
-        });
-        remappedGroundFloors.pushObject(mappedGroundFloor);
+  //       this.set('remappedGroundFloors', remappedGroundFloors);
+  //     });
+  //   }
 
-        this.set('remappedGroundFloors', remappedGroundFloors);
-      });
-    }
-
-  },
+  // },
 
   remapWindows() {
     const windows = this.get('windows');
@@ -114,6 +113,7 @@ export default Ember.Component.extend({
   DRT: Ember.computed('chosenRoom.fields.@each.value', function DRT()
   {
     const roomType = this.get('roomType');
+
     const { ventilationTable } = this.get('model');
 
     if (roomType.length > 0 && ventilationTable) {
@@ -159,6 +159,12 @@ export default Ember.Component.extend({
     }
 
     return 0;
+  }),
+
+  combinedHeatLoss: Ember.computed(
+    'roomVolume',
+    function combinedHeatLoss()
+    {
   }),
 
 });

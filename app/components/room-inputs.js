@@ -175,7 +175,7 @@ export default Ember.Component.extend({
               {
                 name: 'construction',
                 label: 'Construction',
-                options: (async () => {
+                options: (() => {
                   const { constructionOptions } = this.get('model');
                   return constructionOptions.map(field => field.name);
                 })(),
@@ -184,7 +184,25 @@ export default Ember.Component.extend({
               },
               {
                 name: 'U-value',
-                label: 'U-value (W/m2K)',
+                label: 'U-value',
+                type: 'number',
+                value: 0,
+              },
+              {
+                label: 'area',
+                name: 'area',
+                type: 'number',
+                value: 0,
+              },
+              {
+                name: 'DTD',
+                label: 'Design temperature difference',
+                type: 'number',
+                value: 0,
+              },
+              {
+                name: 'heatLoss',
+                label: 'Heat loss (W)',
                 type: 'number',
                 value: 0,
               },
@@ -213,37 +231,54 @@ export default Ember.Component.extend({
                 name: 'edgesExposed',
                 label: 'Edges exposed',
                 type: 'select',
-                options: [
-                  'One Edge (short)',
-                  'One Edge (long)',
-                  'Two opposite Edges',
-                  'Three Edges (short outer edge)',
-                  'Three Edges (long outer edge)',
-                ],
+                options: (() => {
+                  const { edgesExposed } = this.get('model');
+                  return edgesExposed.map(field => field.name);
+                })(),
                 value: '',
               },
               {
                 name: 'insulationType',
                 label: 'Insulation type and thickness',
                 type: 'select',
-                options: [
-                  'Solid floor - Enter a U-value',
-                  'Suspended floor - Enter U-value',
-                  'Solid no insulation',
-                  'Solid 25mm insulation',
-                  'Solid 50mm insulation',
-                  'Solid 75mm insulation',
-                  'Solid 100mm insulation',
-                  'Suspended no insulation',
-                  'Suspended 25mm insulation',
-                  'Suspended 50mm insulation',
-                  'Suspended 75mm insulation',
-                  'Suspended 100mm insulation',
-                ],
+                options: (() => {
+                  const { insulationTypeThickness } = this.get('model');
+                  return insulationTypeThickness.map(field => field.name);
+                })(),
               },
               {
                 name: 'U-value',
                 label: 'U-value (W/m2K)',
+                type: 'number',
+                value: 0,
+              },
+              {
+                label: 'area',
+                name: 'area',
+                type: 'number',
+                value: 0,
+              },
+              {
+                name: 'DTD',
+                label: 'Design temperature difference',
+                type: 'number',
+                value: 0,
+              },
+              {
+                name: 'edge',
+                label: 'Edge value',
+                type: 'number',
+                value: 0,
+              },
+              {
+                name: 'insulation',
+                label: 'Insulation',
+                type: 'number',
+                value: 0,
+              },
+              {
+                name: 'column',
+                label: 'Column',
                 type: 'number',
                 value: 0,
               },

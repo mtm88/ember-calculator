@@ -1,0 +1,26 @@
+[
+  {
+    "name": "One Edge (short)",
+    "value": 1
+  },
+  {
+    "name": "One Edge (long)",
+    "value": 2
+  },
+  {
+    "name": "Two adjacent edges",
+    "value": 3
+  },
+  {
+    "name": "Two opposite Edges",
+    "value": 4
+  },
+  {
+    "name": "Three Edges (short outer edge)",
+    "value": 5
+  },
+  {
+    "name": "Three edges (long outer edge)",
+    "value": 6
+  }
+]

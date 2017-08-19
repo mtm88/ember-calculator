@@ -10,14 +10,7 @@ export default Ember.Component.extend({
   },
 
   observeFields: Ember.observer(
-    'wall.heightOrLength.value',
-    'wall.width.value',
-    'wall.construction.value',
-    'wall.DRT.value',
-    'wall.spaceType.value',
-    'wall.area',
-    'wall.uValue',
-    'wall.U-value.value',
+    'wall.fields.@each.value',
     function observeFields()
     {
       this.mapArea();
@@ -26,29 +19,40 @@ export default Ember.Component.extend({
       this.mapHeatLoss();
     }),
 
-  mapArea() {
-    const wall = this.get('wall');
+    mapArea() {
+      const wall = this.get('wall');
 
-    if (wall && Object.keys(wall).length > 0) {
-      const wallWidth = wall.heightOrLength.value;
-      const wallHeight = wall.width.value;
+      if (wall && wall.fields.length > 0) {
+        const wallWidth = wall.fields.find(field => field.name === 'width').value;
+        const wallHeight = wall.fields.find(field => field.name === 'heightOrLength').value;
 
-      Ember.set(wall, 'area', wallWidth * wallHeight);
-    }
+        // define at which index in the array is the 'area' property we want to set
+        const areaIndex = this.get('wall').fields.findIndex(field => field.name === 'area');
+        const areaField = wall.fields.objectAt(areaIndex);
 
-  },
+        Ember.set(areaField, 'value', wallWidth * wallHeight);
+      }
 
-  mapUValue() {
-    const wall = this.get('wall');
+    },
 
-    if (wall && wall.construction && wall.construction.value) {
-      const constrValue = wall.construction.value;
+    mapUValue() {
+      const wall = this.get('wall');
 
-      if (constrValue) {
-        const { constructionOptions } = this.get('model');
-        const uValue = constructionOptions.find(option => option.name === constrValue).value;
+      if (wall && wall.fields.length > 0) {
+        const constrValue = wall.fields.find(field => field.name === 'construction').value;
 
-        Ember.set(wall, 'uValue', uValue);
+        if (constrValue) {
+          const { constructionOptions } = this.get('model');
+          const uValue = constructionOptions.find(option => option.name === constrValue).value;
+
+          // define at which index in the array is the 'U-value' property we want to set
+          const uValueIndex = this.get('wall').fields.findIndex(field => field.name === 'U-value');
+          const uValueField = wall.fields.objectAt(uValueIndex);
+
+          // if it would be different than 0 it would mean user overriden it on the room config level
+          if (uValueField.value === 0) {
+            Ember.set(uValueField, 'value', uValue);
+          }
       }
 
     }
@@ -56,14 +60,19 @@ export default Ember.Component.extend({
 
   mapDTD() {
     const wall = this.get('wall');
+
     const DRT = this.get('DRT');
     const { ventilationTable } = this.get('model');
-    const spaceType = this.get('wall.spaceType').value;
+    const spaceType = wall.fields.find(field => field.name === 'spaceType').value;
 
     if (ventilationTable[spaceType]) {
       const relatedTemp = ventilationTable[spaceType].DRT;
 
-      Ember.set(wall, 'adjustedDTD', DRT - relatedTemp);
+      // define at which index in the array is the 'U-value' property we want to set
+      const DTDIndex = this.get('wall').fields.findIndex(field => field.name === 'DTD');
+      const DTDField = wall.fields.objectAt(DTDIndex);
+
+      Ember.set(DTDField, 'value', DRT - relatedTemp);
     }
 
     return 0;
@@ -71,19 +80,20 @@ export default Ember.Component.extend({
 
   mapHeatLoss() {
     const wall = this.get('wall');
-    const area = wall.area;
-    const constrValue = wall.construction.value;
-    const uValue = wall.uValue;
-    const overridenUValue = wall['U-value'].value;
-    const adjustedDTD = wall.adjustedDTD;
 
-    if (constrValue && area && !isNaN(adjustedDTD)) {
-      const validUValue = overridenUValue || uValue;
+    const area = wall.fields.find(field => field.name === 'area').value;
+    const constrValue = wall.fields.find(field => field.name === 'construction').value;
+    const uValue = wall.fields.find(field => field.name === 'U-value').value;
+    const DTD = wall.fields.find(field => field.name === 'DTD').value;
 
-      Ember.set(wall, 'heatLoss', validUValue * adjustedDTD * area);
+    if (constrValue && area && !isNaN(DTD)) {
+
+      const heatLossIndex = this.get('wall').fields.findIndex(field => field.name === 'heatLoss');
+      const heatLossField = wall.fields.objectAt(heatLossIndex);
+
+      Ember.set(heatLossField, 'value', uValue * DTD * area);
     }
 
-    return null;
   },
 
 });

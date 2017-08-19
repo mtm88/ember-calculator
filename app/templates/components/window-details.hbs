@@ -7,6 +7,8 @@
   <th>Wall/roof U-value (W/m²K)</th>
   <th>Frame/glazing type</th>
   <th>Entered U-_x001E_value (W/m²K), if required</th>
+  <th>Design temperature difference</th>
+  <th>Heat loss (W)*</th>
 </tr>
 
 <tr>
@@ -30,6 +32,12 @@
   </td>
   <td>
     {{window.U-value.value}}
+  </td>
+  <td>
+    {{window.adjustedDTD}}
+  </td>
+  <td>
+    {{window.heatLoss}}
   </td>
 </tr>
 
