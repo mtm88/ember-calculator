@@ -22,7 +22,7 @@ export default Ember.Component.extend({
     if (window && Object.keys(window).length > 0) {
       const windowHeight = window.windowHeight.value;
       const windowWidth = window.windowWidth.value;
-      Ember.set(window, 'area', windowHeight * windowWidth);
+      window.set('area', windowHeight * windowWidth);
     }
   },
 
@@ -31,7 +31,7 @@ export default Ember.Component.extend({
     const typeOfWall = window.typeOfWall.value;
     if (typeOfWall) {
       const relatedWall = this.get('remappedWalls').find(wall => wall.description.value === typeOfWall)['U-value'].value;
-      Ember.set(window, 'uValue', relatedWall);
+      window.set('uValue', relatedWall);
     }
     return null;
   },

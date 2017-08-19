@@ -189,7 +189,7 @@ export default Ember.Component.extend({
               },
             ]
           }
-          Ember.set(room, 'walls', [...room.walls, newWall]);
+          room.set('walls', [...room.walls, newWall]);
           break;
         }
         case 'groundFloor': {
@@ -247,7 +247,7 @@ export default Ember.Component.extend({
               },
             ],
           };
-          Ember.set(room, 'groundFloors', [...room.groundFloors, newGroundFloor]);
+          room.set('groundFloors', [...room.groundFloors, newGroundFloor]);
           break;
         }
         case 'window': {
@@ -289,7 +289,7 @@ export default Ember.Component.extend({
                 },
               ],
             };
-            Ember.set(room, 'windows', [...room.windows, newWindow]);
+            room.set('windows', [...room.windows, newWindow]);
           }
           break;
 

@@ -30,7 +30,7 @@ export default Ember.Component.extend({
     if (wall && Object.keys(wall).length > 0) {
       const wallWidth = wall.heightOrLength.value;
       const wallHeight = wall.width.value;
-      Ember.set(wall, 'area', wallWidth * wallHeight);
+      wall.set('area', wallWidth * wallHeight);
     }
   },
 
@@ -41,7 +41,7 @@ export default Ember.Component.extend({
       if (constrValue) {
         const { constructionOptions } = this.get('model');
         const uValue = constructionOptions.find(option => option.name === constrValue).value;
-        Ember.set(wall, 'uValue', uValue);
+        wall.set('uValue', uValue);
       }
     }
   },
@@ -53,7 +53,7 @@ export default Ember.Component.extend({
     const spaceType = this.get('wall.spaceType').value;
     if (ventilationTable[spaceType]) {
       const relatedTemp = ventilationTable[spaceType].DRT;
-      Ember.set(wall, 'adjustedDTD', DRT - relatedTemp);
+      wall.set('adjustedDTD', DRT - relatedTemp);
     }
     return 0;
   },
@@ -67,7 +67,7 @@ export default Ember.Component.extend({
     const adjustedDTD = wall.adjustedDTD;
     if (constrValue && area && !isNaN(adjustedDTD)) {
       const validUValue = overridenUValue || uValue;
-      Ember.set(wall, 'heatLoss', validUValue * adjustedDTD * area);
+      wall.set('heatLoss', validUValue * adjustedDTD * area);
     }
     return null;
   },
