@@ -128,7 +128,6 @@ export default Ember.Component.extend({
     },
 
     add(type, i) {
-      const _this = this;
       const room = this.get('rooms').find((room, index) => index === i);
 
       switch (type) {
@@ -191,7 +190,7 @@ export default Ember.Component.extend({
               },
             ]
           }
-          room.set('walls', [...room.walls, newWall]);
+          Ember.set(room, 'walls', [...room.walls, newWall]);
           break;
         }
 
@@ -250,7 +249,7 @@ export default Ember.Component.extend({
               },
             ],
           };
-          room.set('groundFloors', [...room.groundFloors, newGroundFloor]);
+          Ember.set(room, 'groundFloors', [...room.groundFloors, newGroundFloor]);
           break;
         }
 
@@ -293,7 +292,7 @@ export default Ember.Component.extend({
                 },
               ],
             };
-            room.set('windows', [...room.windows, newWindow]);
+            Ember.set(room, 'windows', [...room.windows, newWindow]);
           }
           break;
         }

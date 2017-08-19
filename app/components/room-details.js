@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import DS from 'ember-data';
 
 export default Ember.Component.extend({
 
@@ -34,7 +33,7 @@ export default Ember.Component.extend({
 
   remapWalls() {
     const walls = this.get('walls');
-    const remappedWalls = new Ember.A();
+    const remappedWalls = [];
 
     if (walls && !Ember.isEmpty(walls)) {
       walls.forEach((wall) => {
@@ -52,7 +51,7 @@ export default Ember.Component.extend({
 
   remapGroundFloors() {
     const groundFloors = this.get('groundFloors');
-    const remappedGroundFloors = new Ember.A();
+    const remappedGroundFloors = [];
 
     if (groundFloors && !Ember.isEmpty(groundFloors)) {
       groundFloors.forEach((groundFloor) => {
@@ -70,7 +69,7 @@ export default Ember.Component.extend({
 
   remapWindows() {
     const windows = this.get('windows');
-    const remappedWindows = new Ember.A();
+    const remappedWindows = [];
 
     if (windows && !Ember.isEmpty(windows)) {
       windows.forEach((window) => {

@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 
-  rooms: new Ember.A(),
+  rooms: [],
 
   currentInputTab: 'roomInputs', //siteInputs
   currentResultsTab: 'emitterSpecifications', //certificate

@@ -28,7 +28,7 @@ export default Ember.Component.extend({
       const shortLength = groundFloor.shortLength.value;
       const longLength = groundFloor.longLength.value;
 
-      groundFloor.set('area', shortLength * longLength);
+      Ember.set(groundFloor, 'area', shortLength * longLength);
     }
 
   },
@@ -39,12 +39,12 @@ export default Ember.Component.extend({
     const insulationType = groundFloor.insulationType.value;
 
     if (!isNaN(DRT) && insulationType && insulationType.includes('So')) {
-      groundFloor.set('adjustedDTD', DRT - 10);
+      Ember.set(groundFloor, 'adjustedDTD', DRT - 10);
     }
     else if (!isNaN(DRT) && insulationType) {
       const DETinC = this.get('siteInputsConfig').find(field => field.name === 'DETinC').value;
 
-      groundFloor.set('adjustedDTD',  DRT - DETinC);
+      Ember.set(groundFloor, 'adjustedDTD', DRT - DETinC);
     }
 
   },
@@ -55,7 +55,7 @@ export default Ember.Component.extend({
     const uValue = groundFloor['U-value'].value;
 
     if (area && adjustedDTD && uValue) {
-      groundFloor.set('heatLoss', area * adjustedDTD * uValue);
+      Ember.set(groundFloor, 'heatLoss', area * adjustedDTD * uValue);
     }
 
     return null;
