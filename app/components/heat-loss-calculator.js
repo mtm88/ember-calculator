@@ -6,7 +6,7 @@ export default Ember.Component.extend({
   selectedDFT: null,
   totalRadConv: null,
 
-  currentInputTab: 'roomInputs', //siteInputs
+  currentInputTab: 'siteInputs', // roomInputs
   currentResultsTab: 'emitterSpecifications', //certificate
 
   siteInputsTab: Ember.computed.equal('currentInputTab', 'siteInputs'),
