@@ -97,7 +97,6 @@ export default Ember.Component.extend({
   {
     const room = this.get('room');
     const roomFields = this.get('roomFields');
-
     const roomVolume = roomFields.find(field => field.name === 'roomVolume').value;
     const DTD = roomFields.find(field => field.name === 'DTD').value;
     const ventilationRate = roomFields.find(field => field.name === 'ventilationRate').value;

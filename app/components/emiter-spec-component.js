@@ -80,5 +80,24 @@ export default Ember.Component.extend({
     }
   ),
 
+  DFTOptions: [
+    {
+      "name": "Design flow temperature (Tf) ≤35°C",
+      "value": 32.5,
+    },
+    {
+      "name": "Design flow temperature (Tf) ≤45°C",
+      "value": 41.8,
+    },
+    {
+      "name": "Design flow temperature (Tf) ≤55°C",
+      "value": 51.1
+    },
+  ],
+
+  selectedDFT: null,
+
+  MWT: Ember.computed.alias('selectedDFT.value'),
+
 });
 

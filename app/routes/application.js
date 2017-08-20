@@ -10,6 +10,7 @@ export default Ember.Route.extend({
       insulationTypeThickness: Ember.$.getJSON('/insulationTypeThickness.json'),
       edgesExposed: Ember.$.getJSON('/edgesExposed.json'),
       uValues: Ember.$.getJSON('/uValues.json'),
+      cities: Ember.$.getJSON('/cities.json'),
     });
   },
 });

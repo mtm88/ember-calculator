@@ -27,16 +27,23 @@ export default Ember.Component.extend({
     return 'N/A';
   }),
 
-  totalHeatLossDay: Ember.computed('roomInputsConfig.@each.value', function totalHeatLossDay()
-  {
-    // const reqField = this.get('roomInputsConfig').find(field => field.name = '<field name>');
+  totalHeatLoss: Ember.computed(
+    'rooms.@each.heatLoss',
+    'rooms.groundFloors.@each.heatLoss',
+    'rooms.walls.@each.heatLoss',
+    'rooms.windows.@each.heatLoss',
+    function totalHeatLoss()
+    {
+      let heatLoss = 0;
+      this.get('rooms').forEach((room) => {
+        if (room.combinedHeatLoss && !isNaN(room.combinedHeatLoss)) {
+          heatLoss += room.heatLoss;
+        }
+      });
 
-    // if (reqField) {
-    //   return reqField.value;
-    // }
-
-    return 'N/A';
-  }),
+      return heatLoss;
+    }
+  ),
 
   typeOfHeating: Ember.computed('siteInputsConfig.@each.value', function typeOfHeating()
   {

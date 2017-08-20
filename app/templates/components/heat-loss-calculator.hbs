@@ -2,9 +2,9 @@
 <button {{action 'setTab' 'currentInputTab' 'roomInputs'}}>Room Inputs</button>
 
 {{#if siteInputsTab}}
-  {{site-inputs siteInputsConfig=siteInputsConfig}}
+  {{site-inputs siteInputsConfig=siteInputsConfig model=model}}
 {{else if roomInputTab}}
-  {{room-inputs roomInputsConfig=roomInputsConfig rooms=rooms siteInputsConfig=siteInputsConfig model=model}}
+  {{room-inputs rooms=rooms siteInputsConfig=siteInputsConfig model=model}}
 {{/if}}
 
 <hr>
@@ -13,7 +13,7 @@
 <button {{action 'setTab' 'currentResultsTab' 'emitterSpecifications'}}>Emitter Specifications</button>
 
 {{#if certificateTab}}
-  {{certificate-component siteInputsConfig=siteInputsConfig}}
+  {{certificate-component siteInputsConfig=siteInputsConfig rooms=rooms}}
 {{else if emitterSpecTab}}
   {{emiterSpec-component siteInputsConfig=siteInputsConfig rooms=rooms}}
 {{/if}}

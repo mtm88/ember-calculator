@@ -1,6 +1,30 @@
 <h2>Emitter Specifications</h2>
 
+
 <table roomDetails>
+  <tr>
+    <td>
+      Enter Design flow (Tf) Temperature
+    </td>
+    <td>
+    {{#power-select
+      options=DFTOptions
+      onchange=(action (mut selectedDFT))
+      selected=selectedDFT
+      as |option|}}
+        {{option.name}}
+    {{/power-select}}
+    </td>
+    <td>
+      {{input value=selectedDFT.value}}
+    </td>
+    <td>
+      MWT
+    </td>
+    <td>
+      {{MWT}}
+    </td>
+  </tr>
 
   <tr>
     <th>

@@ -27,7 +27,11 @@
       Type of heat generator (boiler/heat pump/other)
     </td>
     <td>
-      {{#power-select options=genTypes onchange=(action (mut selectedGenType)) selected=selectedGenType as |genType| }} {{genType}}
+      {{#power-select
+        options=genTypes
+        onchange=(action (mut selectedGenType))
+        selected=selectedGenType as |genType| }}
+          {{genType}}
       {{/power-select}}
     </td>
   </tr>
@@ -66,7 +70,7 @@
       Total building heat loss on the design day, in kW
     </td>
     <td>
-      {{totalHeatLossDay}} TO BE DEFINED
+      {{totalHeatLoss}}
     </td>
   </tr>
 
