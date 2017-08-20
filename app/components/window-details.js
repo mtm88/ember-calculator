@@ -2,7 +2,8 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 
-  didReceiveAttrs() {
+  didReceiveAttrs()
+  {
     this.mapArea();
     this.mapWallUValueAndDTD();
     this.mapUValue();
@@ -18,7 +19,8 @@ export default Ember.Component.extend({
       this.mapHeatLoss();
     }),
 
-  mapArea() {
+  mapArea()
+  {
     const window = this.get('window');
 
     if (window && window.fields.length > 0) {
@@ -34,7 +36,8 @@ export default Ember.Component.extend({
 
   },
 
-  mapWallUValueAndDTD() {
+  mapWallUValueAndDTD()
+  {
     const window = this.get('window');
 
     const typeOfWall = window.fields.find(field => field.name === 'typeOfWall').value;
@@ -68,7 +71,8 @@ export default Ember.Component.extend({
 
   },
 
-  mapUValue() {
+  mapUValue()
+  {
     const window = this.get('window');
 
     if (window && window.fields.length > 0) {
@@ -93,7 +97,8 @@ export default Ember.Component.extend({
 
   },
 
-  mapHeatLoss() {
+  mapHeatLoss()
+  {
     const window = this.get('window');
 
     const glazingValue = window.fields.find(field => field.name === 'glazingType').value;

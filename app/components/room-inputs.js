@@ -3,7 +3,8 @@ import Ember from 'ember';
 export default Ember.Component.extend({
 
   actions: {
-    addRoom() {
+    addRoom()
+    {
       const rooms = this.get('rooms');
       const currentRoomsCount = rooms.length;
       rooms.pushObject({
@@ -174,7 +175,8 @@ export default Ember.Component.extend({
       });
     },
 
-    add(type, i) {
+    add(type, i)
+    {
       const room = this.get('rooms').find((room, index) => index === i);
 
       switch (type) {
@@ -419,7 +421,8 @@ export default Ember.Component.extend({
       return;
     },
 
-    showDetails(i) {
+    showDetails(i)
+    {
       this.toggleProperty('showDetailsComp');
       this.set('chosenRoom', this.get('rooms')[i]);
     }

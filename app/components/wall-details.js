@@ -2,7 +2,8 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 
-  didReceiveAttrs() {
+  didReceiveAttrs()
+  {
     this.mapArea();
     this.mapUValue();
     this.mapDTD();
@@ -19,47 +20,50 @@ export default Ember.Component.extend({
       this.mapHeatLoss();
     }),
 
-    mapArea() {
-      const wall = this.get('wall');
+  mapArea()
+  {
+    const wall = this.get('wall');
 
-      if (wall && wall.fields.length > 0) {
-        const wallWidth = wall.fields.find(field => field.name === 'width').value;
-        const wallHeight = wall.fields.find(field => field.name === 'heightOrLength').value;
+    if (wall && wall.fields.length > 0) {
+      const wallWidth = wall.fields.find(field => field.name === 'width').value;
+      const wallHeight = wall.fields.find(field => field.name === 'heightOrLength').value;
 
-        // define at which index in the array is the 'area' property we want to set
-        const areaIndex = wall.fields.findIndex(field => field.name === 'area');
-        const areaField = wall.fields.objectAt(areaIndex);
+      // define at which index in the array is the 'area' property we want to set
+      const areaIndex = wall.fields.findIndex(field => field.name === 'area');
+      const areaField = wall.fields.objectAt(areaIndex);
 
-        Ember.set(areaField, 'value', wallWidth * wallHeight);
-      }
+      Ember.set(areaField, 'value', wallWidth * wallHeight);
+    }
 
-    },
+  },
 
-    mapUValue() {
-      const wall = this.get('wall');
+  mapUValue()
+  {
+    const wall = this.get('wall');
 
-      if (wall && wall.fields.length > 0) {
-        const constrValue = wall.fields.find(field => field.name === 'construction').value;
+    if (wall && wall.fields.length > 0) {
+      const constrValue = wall.fields.find(field => field.name === 'construction').value;
 
-        if (constrValue) {
-          const { constructionOptions } = this.get('model');
-          const uValue = constructionOptions.find(option => option.name === constrValue).value;
+      if (constrValue) {
+        const { constructionOptions } = this.get('model');
+        const uValue = constructionOptions.find(option => option.name === constrValue).value;
 
-          // define at which index in the array is the 'U-value' property we want to set
-          const uValueIndex = wall.fields.findIndex(field => field.name === 'U-value');
-          const uValueField = wall.fields.objectAt(uValueIndex);
+        // define at which index in the array is the 'U-value' property we want to set
+        const uValueIndex = wall.fields.findIndex(field => field.name === 'U-value');
+        const uValueField = wall.fields.objectAt(uValueIndex);
 
-          // if it would be different than 0 it would mean user overriden it on the room config level
-          if (uValueField.value === 0) {
-            Ember.set(uValueField, 'value', uValue);
-          }
+        // if it would be different than 0 it would mean user overriden it on the room config level
+        if (uValueField.value === 0) {
+          Ember.set(uValueField, 'value', uValue);
+        }
       }
 
     }
 
   },
 
-  mapDTD() {
+  mapDTD()
+  {
     const wall = this.get('wall');
     const roomFields = this.get('roomFields');
 
@@ -80,7 +84,8 @@ export default Ember.Component.extend({
     return 0;
   },
 
-  mapHeatLoss() {
+  mapHeatLoss()
+  {
     const wall = this.get('wall');
 
     const area = wall.fields.find(field => field.name === 'area').value;

@@ -2,7 +2,8 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 
-  didReceiveAttrs() {
+  didReceiveAttrs()
+  {
     this.mapArea();
     this.mapDTD();
     this.mapHeatLoss();
@@ -39,7 +40,8 @@ export default Ember.Component.extend({
 
   },
 
-  mapDTD() {
+  mapDTD()
+  {
     const groundFloor = this.get('groundFloor');
     const roomFields = this.get('roomFields');
 
@@ -63,7 +65,8 @@ export default Ember.Component.extend({
     }
   },
 
-  mapEdge() {
+  mapEdge()
+  {
     const groundFloor = this.get('groundFloor');
 
     if (groundFloor && groundFloor.fields.length > 0) {
@@ -87,7 +90,8 @@ export default Ember.Component.extend({
 
   },
 
-  mapInsulationAndColumn() {
+  mapInsulationAndColumn()
+  {
     const groundFloor = this.get('groundFloor');
 
     if (groundFloor && groundFloor.fields.length > 0) {
@@ -120,7 +124,8 @@ export default Ember.Component.extend({
 
   },
 
-  mapUValue() {
+  mapUValue()
+  {
     const groundFloor = this.get('groundFloor');
 
     const edge = groundFloor.fields.find(field => field.name === 'edge').value;
@@ -141,7 +146,8 @@ export default Ember.Component.extend({
 
   },
 
-  mapHeatLoss() {
+  mapHeatLoss()
+  {
     const groundFloor = this.get('groundFloor');
 
     const area = groundFloor.fields.find(field => field.name === 'area').value;
@@ -160,7 +166,8 @@ export default Ember.Component.extend({
 
   },
 
-  calculateUValue(index) {
+  calculateUValue(index)
+  {
     const groundFloor = this.get('groundFloor');
     const { uValues } = this.get('model');
 

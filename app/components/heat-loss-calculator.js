@@ -22,7 +22,8 @@ export default Ember.Component.extend({
   },
 
   // configs to be moved to config files && imported
-  siteInputsConfig: Ember.computed(function siteInputsConfig() {
+  siteInputsConfig: Ember.computed(function siteInputsConfig()
+  {
     return [
       {
         name: 'heatingDuration',

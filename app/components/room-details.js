@@ -113,7 +113,8 @@ export default Ember.Component.extend({
 
   }),
 
-  isConvOrRad: Ember.observer('roomFields.@each.value', function isConvOrRad() {
+  isConvOrRad: Ember.observer('roomFields.@each.value', function isConvOrRad()
+  {
     const room = this.get('room');
     const roomFields = this.get('roomFields');
 
