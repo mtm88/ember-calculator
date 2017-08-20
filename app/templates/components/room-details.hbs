@@ -1,77 +1,17 @@
 <hr>
 <table roomDetails>
 
-  <tr>
-    <td bold>Room Name</td>
-    <td>{{roomName}}</td>
-    <td bold>Emitter Type</td>
-    <td>{{emitterType}}</td>
-    <td bold>For convectors consult the manufacturer's data and enter the temperature factor (FTEMP) for the appropriate fan speed</td>
-    <td>{{temperatureFactor}}</td>
-    <td bold>For radiators enter the n-coefficient (exponent) from manufacturer's data. If unknown 1.3 may be used</td>
-    <td>{{n-coefficient}}</td>
-  </tr>
+  {{#each roomFields as |field|}}
+    <tr>
+      <td>
+        {{field.name}}
+      </td>
+      <td>
+        {{field.value}}
+      </td>
+    </tr>
+  {{/each}}
 
-  <tr>
-    <td bold>Enter floor type and construction</td>
-    <td>{{floorSurfaceType}}</td>
-    <td bold>Enter floor type and construction</td>
-    <td>{{floorConstruction}}</td>
-    <td bold>For UFH enter Tog value (See Table 14)</td>
-    <td>{{floorTOGvalue}}</td>
-    <td bold>For UFH enter active or exposed area of the heated floor</td>
-    <td>{{activeFloorArea}}</td>
-  </tr>
-
-  <tr>
-    <td bold>Room type</td>
-    <td>{{roomType}}</td>
-    <td bold>Chimney type</td>
-    <td>{{chimneyType}}</td>
-    <td bold>Design room ventilation rate (air changes per hour)</td>
-    <td>{{ventilationRate}}</td>
-    <td bold>Design room temperature °C</td>
-    <td>{{DRT}}</td>
-  </tr>
-
-  <tr>
-    <td bold>
-      Length (m)
-    </td>
-    <td>
-      {{roomLength}}
-    </td>
-    <td bold>
-      Width (m)
-    </td>
-    <td>
-      {{roomWidth}}
-    </td>
-    <td bold>
-      Height (m)
-    </td>
-    <td>
-      {{roomHeight}}
-    </td>
-    <td bold>
-      Room volume (m³)
-    </td>
-    <td>
-      {{roomVolume}}
-    </td>
-    <td bold>
-      Design temperature difference
-    </td>
-    <td>
-      {{DTD}}
-    </td>
-    <td bold>
-      Heat loss (W)
-    </td>
-    <td>
-      {{heatLoss}}
-    </td>
-  </tr>
 </table>
 
 <h3>
@@ -79,7 +19,7 @@
 </h3>
 
   {{#each walls as |wall|}}
-    {{wall-details wall=wall model=model DRT=DRT}}
+    {{wall-details wall=wall model=model roomFields=roomFields}}
   {{/each}}
 
 <h3>
@@ -87,7 +27,7 @@
 </h3>
 
   {{#each groundFloors as |groundFloor|}}
-    {{groundfloor-details groundFloor=groundFloor model=model DRT=DRT siteInputsConfig=siteInputsConfig}}
+    {{groundfloor-details groundFloor=groundFloor model=model roomFields=roomFields siteInputsConfig=siteInputsConfig}}
   {{/each}}
 
 <h3>

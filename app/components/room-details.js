@@ -7,111 +7,139 @@ export default Ember.Component.extend({
   groundFloors: Ember.computed.alias('room.groundFloors'),
   windows: Ember.computed.alias('room.windows'),
 
-  didReceiveAttrs() {
-    this.bindFields();
-  },
+  // didReceiveAttrs() {
+  //   this.bindFields();
+  // },
 
-  observeFields: Ember.observer('roomFields.@each.value', function observeFields()
+  // observeFields: Ember.observer('roomFields.@each.value', function observeFields()
+  // {
+  //   this.bindFields();
+  // }),
+
+  // bindFields() {
+  //   const roomFields = this.get('roomFields');
+
+  //   if (roomFields && !Ember.isEmpty(roomFields)) {
+  //     roomFields.forEach((room) => {
+  //       this.set(room.name, room.value);
+  //     });
+  //   }
+  // },
+
+  ventilationRate: Ember.observer('roomFields.@each.value', function ventilationRate()
   {
-    this.bindFields();
-  }),
-
-  bindFields() {
     const roomFields = this.get('roomFields');
-
-    if (roomFields && !Ember.isEmpty(roomFields)) {
-      roomFields.forEach((room) => {
-        this.set(room.name, room.value);
-      });
-    }
-  },
-
-  ventilationRate: Ember.computed('room.fields.@each.value', function ventilationRate()
-  {
-    const roomFields = this.get('roomFields');
-    const chimneyField = roomFields.find(field => field.name === 'chimneyType');
-    const roomType = this.get('roomType');
+    const chimneyField = roomFields.find(field => field.name === 'chimneyType').value;
+    const roomType = roomFields.find(field => field.name === 'roomType').value;
 
     if (roomType) {
-      const { ventilationTable, altVentRates } = this.get('model');
+      // define at which index in the array is the 'ventRate' property we want to set
+      const ventRateIndex = roomFields.findIndex(field => field.name === 'ventilationRate');
+      const ventRateField = roomFields.objectAt(ventRateIndex);
 
-      if (chimneyField.value === 'No chimney or open fire') {
+      const { ventilationTable, altVentRates } = this.get('model');
+      debugger;
+      if (chimneyField === 'No chimney or open fire') {
 
         if (ventilationTable) {
-          return ventilationTable[roomType].VCR.pre2000;
+          Ember.set(ventRateField, 'value', ventilationTable[roomType].VCR.pre2000);
         }
 
       }
-      else if (chimneyField.value) {
+      else if (chimneyField) {
 
         if (altVentRates) {
-          return Math.max(...altVentRates[chimneyField.value]);
+          Ember.set(ventRateField, 'value', Math.max(...altVentRates[chimneyField]));
         }
 
       }
     }
   }),
 
-  DRT: Ember.computed('room.fields.@each.value', function DRT()
+  DRT: Ember.observer('roomFields.@each.value', function DRT()
   {
-    const roomType = this.get('roomType');
+    const roomFields = this.get('roomFields');
 
+    const roomType = roomFields.find(field => field.name === 'roomType').value;
     const { ventilationTable } = this.get('model');
 
-    if (roomType.length > 0 && ventilationTable) {
-      return parseInt(ventilationTable[roomType].DRT, 10);
+    if (roomType && ventilationTable) {
+      // define at which index in the array is the 'DRT' property we want to set
+      const roomTypeIndex = roomFields.findIndex(field => field.name === 'DRT');
+      const roomTypeField = roomFields.objectAt(roomTypeIndex);
+
+      Ember.set(roomTypeField, 'value', parseInt(ventilationTable[roomType].DRT, 10));
     }
 
-    return null;
   }),
 
-  roomVolume: Ember.computed('room.fields.@each.value', function roomVolume()
+  roomVolume: Ember.observer('roomFields.@each.value', function roomVolume()
   {
-    const width = this.get('roomWidth');
-    const height = this.get('roomHeight');
-    const length = this.get('roomLength');
+    const roomFields = this.get('roomFields');
+
+    const width = roomFields.find(field => field.name === 'roomWidth').value;
+    const height = roomFields.find(field => field.name === 'roomHeight').value;
+    const length = roomFields.find(field => field.name === 'roomLength').value;
 
     if (width && height && length) {
-      return width * height * length;
+      // define at which index in the array is the 'roomVolume' property we want to set
+      const roomVolIndex = roomFields.findIndex(field => field.name === 'roomVolume');
+      const roomVolField = roomFields.objectAt(roomVolIndex);
+
+      Ember.set(roomVolField, 'value', width * height * length);
     }
 
-    return null;
   }),
 
-  DTD: Ember.computed('siteInputsConfig.@each.value', 'ventilationRate', function DTD()
-  {
-    const DRT = this.get('DRT');
+  DTD: Ember.observer(
+    'roomFields.@each.value',
+    'siteInputsConfig.@each.value',
+    'ventilationRate',
+    function DTD()
+    {
+    const roomFields = this.get('roomFields');
+
+    const DRT = roomFields.find(field => field.name === 'DRT').value;
     const DETinC = this.get('siteInputsConfig').find(field => field.name === 'DETinC').value;
 
     if (DRT && DETinC) {
-      return DRT - DETinC;
+      // define at which index in the array is the 'DTD' property we want to set
+      const DTDIndex = roomFields.findIndex(field => field.name === 'DTD');
+      const DTDField = roomFields.objectAt(DTDIndex);
+
+      Ember.set(DTDField, 'value', DRT - DETinC);
     }
 
-    return null;
   }),
 
-  heatLoss: Ember.computed('roomVolume', function heatLoss()
+  heatLoss: Ember.observer('roomFields.@each.value', function heatLoss()
   {
-    const roomVolume = this.get('roomVolume');
-    const ventilationRate = this.get('ventilationRate');
-    const DTD = this.get('DTD');
+    const roomFields = this.get('roomFields');
 
-    if (roomVolume && roomVolume > 0 && ventilationRate && DTD) {
-      return Math.round(0.33 * roomVolume * ventilationRate * DTD, 2);
+    const roomVolume = roomFields.find(field => field.name === 'roomVolume').value;
+    const DTD = roomFields.find(field => field.name === 'DTD').value;
+    const ventilationRate = roomFields.find(field => field.name === 'ventilationRate').value;
+
+    if (!isNaN(roomVolume) && !isNaN(ventilationRate) && !isNaN(DTD)) {
+      // define at which index in the array is the 'heatLoss' property we want to set
+      const heatLossIndex = roomFields.findIndex(field => field.name === 'heatLoss');
+      const heatLossField = roomFields.objectAt(heatLossIndex);
+
+      Ember.set(heatLossField, 'value', Math.round(0.33 * roomVolume * ventilationRate * DTD, 2));
     }
 
-    return 0;
   }),
 
   combinedHeatLoss: Ember.computed(
-    'roomVolume',
+    'roomFields.heatLoss',
     'walls.@each.heatLoss',
     'groundFloors.@each.heatLoss',
     'windows.@each.heatLoss',
     function combinedHeatLoss()
     {
-      let totalHeatLoss = 0;
-      const roomHeatLoss = this.get('heatLoss');
+      const roomFields = this.get('roomFields');
+
+      const roomHeatLoss = roomFields.find(field => field.name === 'heatLoss').value;
 
       let wallsHeatLoss = 0;
       let groundFloorsHeatLoss = 0;

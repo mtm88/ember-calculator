@@ -61,9 +61,10 @@ export default Ember.Component.extend({
 
   mapDTD() {
     const wall = this.get('wall');
+    const roomFields = this.get('roomFields');
 
-    const DRT = this.get('DRT');
     const { ventilationTable } = this.get('model');
+    const DRT = roomFields.find(field => field.name === 'DRT').value;
     const spaceType = wall.fields.find(field => field.name === 'spaceType').value;
 
     if (ventilationTable[spaceType]) {
@@ -88,6 +89,7 @@ export default Ember.Component.extend({
     const DTD = wall.fields.find(field => field.name === 'DTD').value;
 
     if (constrValue && area && !isNaN(DTD)) {
+      // define at which index in the array is the 'heatLoss' property we want to set
       const heatLossIndex = wall.fields.findIndex(field => field.name === 'heatLoss');
       const heatLossField = wall.fields.objectAt(heatLossIndex);
 

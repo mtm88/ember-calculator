@@ -41,9 +41,11 @@ export default Ember.Component.extend({
 
   mapDTD() {
     const groundFloor = this.get('groundFloor');
+    const roomFields = this.get('roomFields');
 
     if (groundFloor && groundFloor.fields.length > 0) {
-      const DRT = this.get('DRT');
+
+      const DRT = roomFields.find(field => field.name === 'DRT').value;
       const insulationType = groundFloor.fields.find(field => field.name === 'insulationType').value;
 
       // define at which index in the array is the 'DTD' property we want to set

@@ -1,8 +1,43 @@
 <h2>Emitter Specifications</h2>
 
-<table>
-  {{#each rooms as |room|}}
-    {{room}}
+<table roomDetails>
+
+  <tr>
+    <th>
+      Room Number
+    </th>
+    <th>
+      Room Name
+    </th>
+    <th>
+      Emitter type
+    </th>
+    <td>
+      Design heat loss (W)
+    </td>
+    <td>
+      Design room temperature (°C)
+    </td>
+  </tr>
+
+  {{#each rooms as |room index|}}
+
+    <tr>
+      <td>
+        {{index}}
+      </td>
+
+      {{#each room.fields as |field|}}
+
+        {{#if field.emiterSpec}}
+          <td>
+            {{field.value}}
+          </td>
+        {{/if}}
+
+      {{/each}}
+    </tr>
+
   {{/each}}
 </table>
 
