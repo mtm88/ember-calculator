@@ -4,7 +4,8 @@ export default Ember.Component.extend({
 
   totalHeatLoss: Ember.computed(
     'rooms.@each.heatLoss',
-    'rooms.groundFloors.@each.heatLoss',
+    'rooms.@each.combinedHeatLoss',
+    'rooms.@each.groundFloors.@each.heatLoss',
     'rooms.walls.@each.heatLoss',
     'rooms.windows.@each.heatLoss',
     function totalHeatLoss()
@@ -12,10 +13,9 @@ export default Ember.Component.extend({
       let heatLoss = 0;
       this.get('rooms').forEach((room) => {
         if (room.combinedHeatLoss && !isNaN(room.combinedHeatLoss)) {
-          heatLoss += room.heatLoss;
+          heatLoss += room.combinedHeatLoss;
         }
       });
-
       return heatLoss;
     }
   ),
