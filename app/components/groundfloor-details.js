@@ -129,27 +129,12 @@ export default Ember.Component.extend({
       const secondMinArg = edge > 4 ? (insulation / 10) : 0;
       const searchedIndex = edge + Math.min(0.6, secondMinArg);
 
-      const { uValues } = this.get('model');
+      const uValue = this.calculateUValue(searchedIndex);
 
-      const indexMapping = {
-        3: (() => {
-          // calculate the sum of dimensions to find proper index in uValues table
-          const shortLength = groundFloor.fields.find(field => field.name === 'shortLength').value;
-          const longLength = groundFloor.fields.find(field => field.name === 'longLength').value;
-          const dimSum = parseInt(shortLength, 10) + parseInt(longLength, 10);
+      const uValueIndex = this.get('groundFloor').fields.findIndex(field => field.name === 'U-value');
+      const uValueField = groundFloor.fields.objectAt(uValueIndex);
 
-          // make use of the column defined together with insulation to map the proper value
-          const columnIndex = groundFloor.fields.find(field => field.name === 'column').value;
-
-          const solidFloorData = uValues.solidFloors.find(opt => opt.index === dimSum);
-
-          if (solidFloorData && solidFloorData.values) {
-            // compensate 2 for code index starting at 0 and xml counting index as 1st field
-            return solidFloorData.values[columnIndex - 2];
-          }
-        })(),
-      }
-
+      Ember.set(uValueField, 'value', uValue);
     }
 
   },
@@ -159,16 +144,81 @@ export default Ember.Component.extend({
 
     const area = groundFloor.fields.find(field => field.name === 'area').value;
     const DTD = groundFloor.fields.find(field => field.name === 'DTD').value;
+    const uValue = groundFloor.fields.find(field => field.name === 'U-value').value;
 
+    if (area && DTD && uValue) {
+      // define at which index in the array is the 'DTD' property we want to set
+      const heatLossIndex = this.get('groundFloor').fields.findIndex(field => field.name === 'heatLoss');
+      const heatLossField = groundFloor.fields.objectAt(heatLossIndex);
 
-    // const { area, adjustedDTD } = this.get('groundFloor');
-    // const uValue = groundFloor['U-value'].value;
+      Ember.set(heatLossField, 'value', area * DTD * uValue);
+    }
 
-    // if (area && adjustedDTD && uValue) {
-    //   Ember.set(groundFloor, 'heatLoss', area * adjustedDTD * uValue);
-    // }
+  },
 
-    return null;
+  calculateUValue(index) {
+    const groundFloor = this.get('groundFloor');
+    const { uValues } = this.get('model');
+
+    const shortLength = groundFloor.fields.find(field => field.name === 'shortLength').value;
+    const longLength = groundFloor.fields.find(field => field.name === 'longLength').value;
+
+    // make use of the column defined together with insulation to map the proper value
+    let columnIndex = groundFloor.fields.find(field => field.name === 'column').value;
+
+    let uValue = 0;
+    let floorData;
+
+    switch (index) {
+
+      case 1: {
+        floorData = uValues.fifth.find(opt => opt.index === parseInt(longLength, 10));
+        break;
+      }
+
+      case 2: {
+        floorData = uValues.fifth.find(opt => opt.index === parseInt(shortLength, 10));
+        break;
+      }
+
+      case 3: {
+        // calculate the sum of dimensions to find proper index in uValues table
+        const dimSum = parseInt(shortLength, 10) + parseInt(longLength, 10);
+        floorData = uValues.first.find(opt => opt.index === dimSum);
+        break;
+      }
+
+      case 4: {
+        floorData = uValues.second.find(opt => opt.index === parseInt(shortLength, 10));
+        break;
+      }
+
+      case 5.3:
+      case 5.4:
+      case 5.5:
+      case 5.6: {
+        floorData = uValues.third.find(opt => opt.index === parseInt(longLength, 10));
+        columnIndex -= 1;
+        break;
+      }
+
+      case 6.3:
+      case 6.4:
+      case 6.5:
+      case 6.6: {
+        floorData = uValues.forth.find(opt => opt.index === parseInt(longLength, 10));
+        columnIndex -= 1;
+        break;
+      }
+    }
+
+    //after switch statement check if we have found correct data under the index, if so, set them
+    if (floorData && floorData.values) {
+      // compensate 2 for code index starting at 0 and xml counting index as 1st field
+      uValue = floorData.values[columnIndex - 2];
+    }
+
+    return uValue;
   },
 
 });
