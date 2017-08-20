@@ -31,7 +31,7 @@ export default Ember.Component.extend({
       const longLength = groundFloor.fields.find(field => field.name === 'longLength').value;
 
       // define at which index in the array is the 'area' property we want to set
-      const areaIndex = this.get('groundFloor').fields.findIndex(field => field.name === 'area');
+      const areaIndex = groundFloor.fields.findIndex(field => field.name === 'area');
       const areaField = groundFloor.fields.objectAt(areaIndex);
 
       Ember.set(areaField, 'value', shortLength * longLength);
@@ -47,7 +47,7 @@ export default Ember.Component.extend({
       const insulationType = groundFloor.fields.find(field => field.name === 'insulationType').value;
 
       // define at which index in the array is the 'DTD' property we want to set
-      const DTDIndex = this.get('groundFloor').fields.findIndex(field => field.name === 'DTD');
+      const DTDIndex = groundFloor.fields.findIndex(field => field.name === 'DTD');
       const DTDField = groundFloor.fields.objectAt(DTDIndex);
 
       if (!isNaN(DRT) && insulationType && insulationType.includes('So')) {
@@ -73,7 +73,7 @@ export default Ember.Component.extend({
 
         if (edge) {
           // define at which index in the array is the 'area' property we want to set
-          const edgeIndex = this.get('groundFloor').fields.findIndex(field => field.name === 'edge');
+          const edgeIndex = groundFloor.fields.findIndex(field => field.name === 'edge');
           const edgeField = groundFloor.fields.objectAt(edgeIndex);
 
           Ember.set(edgeField, 'value', edge);
@@ -98,7 +98,7 @@ export default Ember.Component.extend({
 
         if (thickness) {
           // define at which index in the array is the 'type' property we want to set
-          const typeIndex = this.get('groundFloor').fields.findIndex(field => field.name === 'insulation');
+          const typeIndex = groundFloor.fields.findIndex(field => field.name === 'insulation');
           const typeField = groundFloor.fields.objectAt(typeIndex);
 
           Ember.set(typeField, 'value', thickness);
@@ -106,7 +106,7 @@ export default Ember.Component.extend({
 
         if (column) {
           // define at which index in the array is the 'column' property we want to set
-          const columnIndex = this.get('groundFloor').fields.findIndex(field => field.name === 'column');
+          const columnIndex = groundFloor.fields.findIndex(field => field.name === 'column');
           const columnField = groundFloor.fields.objectAt(columnIndex);
 
           Ember.set(columnField, 'value', column);
@@ -131,7 +131,7 @@ export default Ember.Component.extend({
 
       const uValue = this.calculateUValue(searchedIndex);
 
-      const uValueIndex = this.get('groundFloor').fields.findIndex(field => field.name === 'U-value');
+      const uValueIndex = groundFloor.fields.findIndex(field => field.name === 'U-value');
       const uValueField = groundFloor.fields.objectAt(uValueIndex);
 
       Ember.set(uValueField, 'value', uValue);
@@ -148,9 +148,11 @@ export default Ember.Component.extend({
 
     if (area && DTD && uValue) {
       // define at which index in the array is the 'DTD' property we want to set
-      const heatLossIndex = this.get('groundFloor').fields.findIndex(field => field.name === 'heatLoss');
+      const heatLossIndex = groundFloor.fields.findIndex(field => field.name === 'heatLoss');
       const heatLossField = groundFloor.fields.objectAt(heatLossIndex);
 
+      // set it also as top level prop so we don't need to observe with double @each from parent
+      Ember.set(groundFloor, 'heatLoss', area * DTD * uValue);
       Ember.set(heatLossField, 'value', area * DTD * uValue);
     }
 

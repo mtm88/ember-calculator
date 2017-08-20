@@ -27,7 +27,7 @@ export default Ember.Component.extend({
         const wallHeight = wall.fields.find(field => field.name === 'heightOrLength').value;
 
         // define at which index in the array is the 'area' property we want to set
-        const areaIndex = this.get('wall').fields.findIndex(field => field.name === 'area');
+        const areaIndex = wall.fields.findIndex(field => field.name === 'area');
         const areaField = wall.fields.objectAt(areaIndex);
 
         Ember.set(areaField, 'value', wallWidth * wallHeight);
@@ -46,7 +46,7 @@ export default Ember.Component.extend({
           const uValue = constructionOptions.find(option => option.name === constrValue).value;
 
           // define at which index in the array is the 'U-value' property we want to set
-          const uValueIndex = this.get('wall').fields.findIndex(field => field.name === 'U-value');
+          const uValueIndex = wall.fields.findIndex(field => field.name === 'U-value');
           const uValueField = wall.fields.objectAt(uValueIndex);
 
           // if it would be different than 0 it would mean user overriden it on the room config level
@@ -70,7 +70,7 @@ export default Ember.Component.extend({
       const relatedTemp = ventilationTable[spaceType].DRT;
 
       // define at which index in the array is the 'U-value' property we want to set
-      const DTDIndex = this.get('wall').fields.findIndex(field => field.name === 'DTD');
+      const DTDIndex = wall.fields.findIndex(field => field.name === 'DTD');
       const DTDField = wall.fields.objectAt(DTDIndex);
 
       Ember.set(DTDField, 'value', DRT - relatedTemp);
@@ -88,10 +88,11 @@ export default Ember.Component.extend({
     const DTD = wall.fields.find(field => field.name === 'DTD').value;
 
     if (constrValue && area && !isNaN(DTD)) {
-
-      const heatLossIndex = this.get('wall').fields.findIndex(field => field.name === 'heatLoss');
+      const heatLossIndex = wall.fields.findIndex(field => field.name === 'heatLoss');
       const heatLossField = wall.fields.objectAt(heatLossIndex);
 
+      // set it also as top level prop so we don't need to observe with double @each from parent
+      Ember.set(wall, 'heatLoss', uValue * DTD * area);
       Ember.set(heatLossField, 'value', uValue * DTD * area);
     }
 

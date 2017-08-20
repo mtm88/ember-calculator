@@ -24,64 +24,6 @@ export default Ember.Component.extend({
         this.set(room.name, room.value);
       });
     }
-
-    // this.remapWalls();
-    // this.remapGroundFloors();
-    this.remapWindows();
-
-  },
-
-  // remapWalls() {
-  //   const walls = this.get('walls');
-  //   const remappedWalls = [];
-  //   if (walls && !Ember.isEmpty(walls)) {
-  //     walls.forEach((wall) => {
-  //       const mappedWall = new Ember.Object();
-  //       wall.fields.forEach((field) => {
-  //         mappedWall[field.name] = field;
-  //       });
-  //       remappedWalls.pushObject(mappedWall);
-
-  //       this.set('remappedWalls', remappedWalls);
-  //     });
-  //   }
-
-  // },
-
-  // remapGroundFloors() {
-  //   const groundFloors = this.get('groundFloors');
-  //   const remappedGroundFloors = [];
-
-  //   if (groundFloors && !Ember.isEmpty(groundFloors)) {
-  //     groundFloors.forEach((groundFloor) => {
-  //       const mappedGroundFloor = new Ember.Object();
-  //       groundFloor.fields.forEach((field) => {
-  //         mappedGroundFloor[field.name] = field;
-  //       });
-  //       remappedGroundFloors.pushObject(mappedGroundFloor);
-
-  //       this.set('remappedGroundFloors', remappedGroundFloors);
-  //     });
-  //   }
-
-  // },
-
-  remapWindows() {
-    const windows = this.get('windows');
-    const remappedWindows = [];
-
-    if (windows && !Ember.isEmpty(windows)) {
-      windows.forEach((window) => {
-        const mappedWindow = new Ember.Object();
-        window.fields.forEach((field) => {
-          mappedWindow[field.name] = field;
-        });
-        remappedWindows.pushObject(mappedWindow);
-
-        this.set('remappedWindows', remappedWindows);
-      });
-    }
-
   },
 
   ventilationRate: Ember.computed('room.fields.@each.value', function ventilationRate()
@@ -163,8 +105,23 @@ export default Ember.Component.extend({
 
   combinedHeatLoss: Ember.computed(
     'roomVolume',
+    'walls.@each.heatLoss',
+    'groundFloors.@each.heatLoss',
+    'windows.@each.heatLoss',
     function combinedHeatLoss()
     {
+      let totalHeatLoss = 0;
+      const roomHeatLoss = this.get('heatLoss');
+
+      let wallsHeatLoss = 0;
+      let groundFloorsHeatLoss = 0;
+      let windowsHeatLoss = 0;
+
+      this.get('walls').forEach(wall => !isNaN(wall.heatLoss) ? wallsHeatLoss += wall.heatLoss : null);
+      this.get('groundFloors').forEach(groundFloor => !isNaN(groundFloor.heatLoss) ? wallsHeatLoss += groundFloor.heatLoss : null);
+      this.get('windows').forEach(window => !isNaN(window.heatLoss) ? wallsHeatLoss += window.heatLoss : null);
+
+      return roomHeatLoss + wallsHeatLoss + groundFloorsHeatLoss + windowsHeatLoss;
   }),
 
 });

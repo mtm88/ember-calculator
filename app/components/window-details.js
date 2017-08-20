@@ -26,7 +26,7 @@ export default Ember.Component.extend({
       const windowWidth = window.fields.find(field => field.name === 'windowWidth').value;
 
       // define at which index in the array is the 'area' property we want to set
-      const areaIndex = this.get('window').fields.findIndex(field => field.name === 'area');
+      const areaIndex = window.fields.findIndex(field => field.name === 'area');
       const areaField = window.fields.objectAt(areaIndex);
 
       Ember.set(areaField, 'value', windowHeight * windowWidth);
@@ -56,8 +56,8 @@ export default Ember.Component.extend({
       });
 
       // define at which index in the array is the 'U-value' and 'DTD' property we want to set
-      const wallUValueIndex = this.get('window').fields.findIndex(field => field.name === 'wall-U-value');
-      const wallDTDIndex = this.get('window').fields.findIndex(field => field.name === 'DTD');
+      const wallUValueIndex = window.fields.findIndex(field => field.name === 'wall-U-value');
+      const wallDTDIndex = window.fields.findIndex(field => field.name === 'DTD');
 
       const wallUValueField = window.fields.objectAt(wallUValueIndex);
       const wallDTDField = window.fields.objectAt(wallDTDIndex);
@@ -79,7 +79,7 @@ export default Ember.Component.extend({
         const uValue = windowsDoors.find(option => option.name === glazingValue).value;
 
         // define at which index in the array is the 'U-value' property we want to set
-        const uValueIndex = this.get('window').fields.findIndex(field => field.name === 'U-value');
+        const uValueIndex = window.fields.findIndex(field => field.name === 'U-value');
         const uValueField = window.fields.objectAt(uValueIndex);
 
         // if it would be different than 0 it would mean user overriden it on the room config level
@@ -116,9 +116,11 @@ export default Ember.Component.extend({
     }
 
     // define at which index in the array is the 'U-value' property we want to set
-    const heatLossIndex = this.get('window').fields.findIndex(field => field.name === 'heatLoss');
+    const heatLossIndex = window.fields.findIndex(field => field.name === 'heatLoss');
     const heatLossField = window.fields.objectAt(heatLossIndex);
 
+    // set it also as top level prop so we don't need to observe with double @each from parent
+    Ember.set(window, 'heatLoss', heatLoss);
     Ember.set(heatLossField, 'value', heatLoss);
   },
 
