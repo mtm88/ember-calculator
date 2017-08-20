@@ -3,6 +3,8 @@ import Ember from 'ember';
 export default Ember.Component.extend({
 
   rooms: [],
+  selectedDFT: null,
+  totalRadConv: null,
 
   currentInputTab: 'roomInputs', //siteInputs
   currentResultsTab: 'emitterSpecifications', //certificate

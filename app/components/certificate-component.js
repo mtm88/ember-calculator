@@ -67,36 +67,24 @@ export default Ember.Component.extend({
     return 'N/A';
   }),
 
-  MWT: Ember.computed('roomInputsConfig.@each.value', function totalHeatLossDay()
+  MWT: Ember.computed('selectedDFT.value', function totalHeatLossDay()
   {
-    // const reqField = this.get('roomInputsConfig').find(field => field.name = '<field name>');
-
-    // if (reqField) {
-    //   return reqField.value;
-    // }
-
-    return 'N/A';
+    return this.get('selectedDFT.value');
   }),
 
   oversizeFactor: Ember.computed('roomInputsConfig.@each.value', function totalHeatLossDay()
   {
-    // const reqField = this.get('roomInputsConfig').find(field => field.name = '<field name>');
+    const totalRadConv = this.get('totalRadConv');
 
-    // if (reqField) {
-    //   return reqField.value;
-    // }
+    if (totalRadConv) {
+      return totalRadConv;
+    }
 
-    return 'N/A';
+    return 0;
   }),
 
   underfloorHeating: Ember.computed('roomInputsConfig.@each.value', function totalHeatLossDay()
   {
-    // const reqField = this.get('roomInputsConfig').find(field => field.name = '<field name>');
-
-    // if (reqField) {
-    //   return reqField.value;
-    // }
-
     return 'N/A';
   }),
 
@@ -113,7 +101,7 @@ export default Ember.Component.extend({
 
   blendingValve: Ember.computed('siteInputsConfig.@each.value', function blendingValve()
   {
-    return 'TO BE DEFINED';
+    return 'N/A';
   }),
 
 });

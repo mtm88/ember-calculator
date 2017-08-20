@@ -57,6 +57,10 @@ export default Ember.Component.extend({
           }
 
           totalContributionToHeating += room.heatLoss;
+
+          // set to toggle observer on parent for certificate needs
+          this.set('totalRadConv', emitterSize);
+
           Ember.set(room, 'reqEmitterSize', emitterSize);
         }
       });
@@ -94,8 +98,6 @@ export default Ember.Component.extend({
       "value": 51.1
     },
   ],
-
-  selectedDFT: null,
 
   MWT: Ember.computed.alias('selectedDFT.value'),
 

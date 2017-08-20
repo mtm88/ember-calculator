@@ -13,9 +13,9 @@
 <button {{action 'setTab' 'currentResultsTab' 'emitterSpecifications'}}>Emitter Specifications</button>
 
 {{#if certificateTab}}
-  {{certificate-component siteInputsConfig=siteInputsConfig rooms=rooms}}
+  {{certificate-component siteInputsConfig=siteInputsConfig rooms=rooms selectedDFT=selectedDFT totalRadConv=totalRadConv}}
 {{else if emitterSpecTab}}
-  {{emiterSpec-component siteInputsConfig=siteInputsConfig rooms=rooms}}
+  {{emiterSpec-component siteInputsConfig=siteInputsConfig rooms=rooms selectedDFT=selectedDFT totalRadConv=totalRadConv}}
 {{/if}}
 
 {{yield}}
