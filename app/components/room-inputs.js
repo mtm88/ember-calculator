@@ -11,6 +11,7 @@ export default Ember.Component.extend({
         walls: [],
         groundFloors: [],
         windows: [],
+        reqEmitterSize: null,
         fields: [
           {
             name: 'roomName',

@@ -7,25 +7,6 @@ export default Ember.Component.extend({
   groundFloors: Ember.computed.alias('room.groundFloors'),
   windows: Ember.computed.alias('room.windows'),
 
-  // didReceiveAttrs() {
-  //   this.bindFields();
-  // },
-
-  // observeFields: Ember.observer('roomFields.@each.value', function observeFields()
-  // {
-  //   this.bindFields();
-  // }),
-
-  // bindFields() {
-  //   const roomFields = this.get('roomFields');
-
-  //   if (roomFields && !Ember.isEmpty(roomFields)) {
-  //     roomFields.forEach((room) => {
-  //       this.set(room.name, room.value);
-  //     });
-  //   }
-  // },
-
   ventilationRate: Ember.observer('roomFields.@each.value', function ventilationRate()
   {
     const roomFields = this.get('roomFields');
@@ -38,7 +19,7 @@ export default Ember.Component.extend({
       const ventRateField = roomFields.objectAt(ventRateIndex);
 
       const { ventilationTable, altVentRates } = this.get('model');
-      debugger;
+
       if (chimneyField === 'No chimney or open fire') {
 
         if (ventilationTable) {
@@ -114,6 +95,7 @@ export default Ember.Component.extend({
 
   heatLoss: Ember.observer('roomFields.@each.value', function heatLoss()
   {
+    const room = this.get('room');
     const roomFields = this.get('roomFields');
 
     const roomVolume = roomFields.find(field => field.name === 'roomVolume').value;
@@ -125,18 +107,35 @@ export default Ember.Component.extend({
       const heatLossIndex = roomFields.findIndex(field => field.name === 'heatLoss');
       const heatLossField = roomFields.objectAt(heatLossIndex);
 
+      // set it also as top level prop so we don't need to observe with double @each from parent
+      Ember.set(room, 'heatLoss', Math.round(0.33 * roomVolume * ventilationRate * DTD, 2));
       Ember.set(heatLossField, 'value', Math.round(0.33 * roomVolume * ventilationRate * DTD, 2));
     }
 
   }),
 
+  isConvOrRad: Ember.observer('roomFields.@each.value', function isConvOrRad() {
+    const room = this.get('room');
+    const roomFields = this.get('roomFields');
+
+    const emitterType = roomFields.find(field => field.name === 'emitterType').value;
+
+    if (emitterType === 'Convector' || emitterType === 'Radiator') {
+      // we need that property to calculate emitter size in spec
+      Ember.set(room, 'isConvOrRad', true);
+      Ember.set(room, 'emitterType', emitterType);
+    }
+
+  }),
+
   combinedHeatLoss: Ember.computed(
-    'roomFields.heatLoss',
+    'roomFields.@each.value',
     'walls.@each.heatLoss',
     'groundFloors.@each.heatLoss',
     'windows.@each.heatLoss',
     function combinedHeatLoss()
     {
+      const room = this.get('room');
       const roomFields = this.get('roomFields');
 
       const roomHeatLoss = roomFields.find(field => field.name === 'heatLoss').value;
@@ -148,6 +147,9 @@ export default Ember.Component.extend({
       this.get('walls').forEach(wall => !isNaN(wall.heatLoss) ? wallsHeatLoss += wall.heatLoss : null);
       this.get('groundFloors').forEach(groundFloor => !isNaN(groundFloor.heatLoss) ? wallsHeatLoss += groundFloor.heatLoss : null);
       this.get('windows').forEach(window => !isNaN(window.heatLoss) ? wallsHeatLoss += window.heatLoss : null);
+
+      // set it also as top level prop so we don't need to observe with double @each from parent
+      Ember.set(room, 'combinedHeatLoss', roomHeatLoss + wallsHeatLoss + groundFloorsHeatLoss + windowsHeatLoss);
 
       return roomHeatLoss + wallsHeatLoss + groundFloorsHeatLoss + windowsHeatLoss;
   }),
