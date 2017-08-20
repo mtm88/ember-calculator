@@ -94,11 +94,9 @@
     Windows and doors
 </h3>
 
-<table roomDetails>
-  {{#each remappedWindows as |window|}}
-    {{window-details window=window remappedWalls=remappedWalls model=model}}
+  {{#each windows as |window|}}
+    {{window-details window=window walls=walls model=model}}
   {{/each}}
-</table>
 
 <h3>
   Room heat loss (W): {{combinedHeatLoss}}

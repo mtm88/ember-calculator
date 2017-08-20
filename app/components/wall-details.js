@@ -56,6 +56,7 @@ export default Ember.Component.extend({
       }
 
     }
+
   },
 
   mapDTD() {

@@ -2,8 +2,9 @@
 
 <button {{action 'addRoom'}}>Add room</button> {{yield}}
 
-<table roomDetails>
-  {{#each rooms as |room index|}}
+{{#each rooms as |room index|}}
+
+  <table roomDetails>
     <tr>
 
       <td>
@@ -11,7 +12,6 @@
         <button {{action 'add' 'wall' index}}>Add Wall/Floor/Ceiling</button>
         <button {{action 'add' 'groundFloor' index}}>Add Ground Floor</button>
         <button {{action 'add' 'window' index}}>Add Window/Door</button>
-        <button {{action 'showDetails' index}}>View Details</button>
       </td>
 
       {{#each room.fields as |field|}}
@@ -58,10 +58,9 @@
     </tr>
     {{/each}}
 
-  {{/each}}
+  </table>
 
-</table>
+  {{room-details room=room siteInputsConfig=siteInputsConfig model=model}}
+{{/each}}
 
-{{#if showDetailsComp}}
-  {{room-details chosenRoom=chosenRoom siteInputsConfig=siteInputsConfig model=model}}
-{{/if}}
+

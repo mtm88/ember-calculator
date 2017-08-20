@@ -2,10 +2,10 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 
-  roomFields: Ember.computed.alias('chosenRoom.fields'),
-  walls: Ember.computed.alias('chosenRoom.walls'),
-  groundFloors: Ember.computed.alias('chosenRoom.groundFloors'),
-  windows: Ember.computed.alias('chosenRoom.windows'),
+  roomFields: Ember.computed.alias('room.fields'),
+  walls: Ember.computed.alias('room.walls'),
+  groundFloors: Ember.computed.alias('room.groundFloors'),
+  windows: Ember.computed.alias('room.windows'),
 
   didReceiveAttrs() {
     this.bindFields();
@@ -84,7 +84,7 @@ export default Ember.Component.extend({
 
   },
 
-  ventilationRate: Ember.computed('chosenRoom.fields.@each.value', function ventilationRate()
+  ventilationRate: Ember.computed('room.fields.@each.value', function ventilationRate()
   {
     const roomFields = this.get('roomFields');
     const chimneyField = roomFields.find(field => field.name === 'chimneyType');
@@ -110,7 +110,7 @@ export default Ember.Component.extend({
     }
   }),
 
-  DRT: Ember.computed('chosenRoom.fields.@each.value', function DRT()
+  DRT: Ember.computed('room.fields.@each.value', function DRT()
   {
     const roomType = this.get('roomType');
 
@@ -123,7 +123,7 @@ export default Ember.Component.extend({
     return null;
   }),
 
-  roomVolume: Ember.computed('chosenRoom.fields.@each.value', function roomVolume()
+  roomVolume: Ember.computed('room.fields.@each.value', function roomVolume()
   {
     const width = this.get('roomWidth');
     const height = this.get('roomHeight');

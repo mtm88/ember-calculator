@@ -2,9 +2,6 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 
-  showDetailsComp: false,
-  chosenRoom: null,
-
   actions: {
     addRoom() {
       const rooms = this.get('rooms');
@@ -191,24 +188,26 @@ export default Ember.Component.extend({
               {
                 label: 'area',
                 name: 'area',
-                type: 'number',
+                type: 'constant',
                 value: 0,
               },
               {
                 name: 'DTD',
                 label: 'Design temperature difference',
-                type: 'number',
+                type: 'constant',
                 value: 0,
               },
               {
                 name: 'heatLoss',
                 label: 'Heat loss (W)',
-                type: 'number',
+                type: 'constant',
                 value: 0,
               },
             ]
           }
+
           Ember.set(room, 'walls', [...room.walls, newWall]);
+
           break;
         }
 
@@ -290,13 +289,16 @@ export default Ember.Component.extend({
               },
             ],
           };
+
           Ember.set(room, 'groundFloors', [...room.groundFloors, newGroundFloor]);
+
           break;
         }
 
         case 'window': {
           const relatedWalls = room.walls;
           const wallDescriptions = relatedWalls.map(wall => wall.fields.find(field => field.name === 'description').value);
+
           if (relatedWalls && !Ember.isEmpty(relatedWalls) && wallDescriptions) {
             const newWindow = {
               fields: [
@@ -327,17 +329,43 @@ export default Ember.Component.extend({
                 },
                 {
                   name: 'U-value',
-                  label: 'U-value (W/m2K)',
+                  label: 'U-value',
                   type: 'number',
+                  value: 0,
+                },
+                {
+                  name: 'wall-U-value',
+                  label: 'Wall/roof U-value (W/m²K)',
+                  type: 'constant',
+                  value: 0,
+                },
+                {
+                  label: 'area',
+                  name: 'area',
+                  type: 'constant',
+                  value: 0,
+                },
+                {
+                  name: 'DTD',
+                  label: 'Design temperature difference',
+                  type: 'constant',
+                  value: 0,
+                },
+                {
+                  name: 'heatLoss',
+                  label: 'Heat Loss',
+                  type: 'constant',
                   value: 0,
                 },
               ],
             };
             Ember.set(room, 'windows', [...room.windows, newWindow]);
           }
+
           break;
         }
       }
+
       return;
     },
 

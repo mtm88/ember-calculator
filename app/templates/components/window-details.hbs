@@ -1,44 +1,11 @@
-{{yield}}
-<tr>
-  <th>In which wall/ceiling/door</th>
-  <th>Window/door height (m)</th>
-  <th>Window/door width (m)</th>
-  <th>Area (m²)</th>
-  <th>Wall/roof U-value (W/m²K)</th>
-  <th>Frame/glazing type</th>
-  <th>Entered U-_x001E_value (W/m²K), if required</th>
-  <th>Design temperature difference</th>
-  <th>Heat loss (W)*</th>
-</tr>
+<table roomDetails>
 
-<tr>
-  <td>
-    {{window.typeOfWall.value}}
-  </td>
-  <td>
-    {{window.windowHeight.value}}
-  </td>
-  <td>
-    {{window.windowWidth.value}}
-  </td>
-  <td>
-    {{window.area}}
-  </td>
-  <td>
-    {{window.uValue}}
-  </td>
-  <td>
-    {{window.glazingType.value}}
-  </td>
-  <td>
-    {{window.U-value.value}}
-  </td>
-  <td>
-    {{window.adjustedDTD}}
-  </td>
-  <td>
-    {{window.heatLoss}}
-  </td>
-</tr>
+  {{#each window.fields as |field|}}
+    <tr>
+      <td>{{field.label}}: </td>
+      <td>{{field.value}}</td>
+    </tr>
+  {{/each}}
 
+</table>
 {{yield}}
