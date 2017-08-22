@@ -11,6 +11,7 @@ export default Ember.Component.extend({
     function totalHeatLoss()
     {
       let heatLoss = 0;
+      // get combinedHeatLoss that's defined on each room and give a sum
       this.get('rooms').forEach((room) => {
         if (room.combinedHeatLoss && !isNaN(room.combinedHeatLoss)) {
           heatLoss += room.combinedHeatLoss;
@@ -38,12 +39,15 @@ export default Ember.Component.extend({
       let totalContributionToHeating = 0;
 
       rooms.forEach((room) => {
+        // check for the flag on the room that defines whether a room has a Convector or Radiator
         if (room.isConvOrRad) {
+          // find heatLoss value in the room fields array
           const heatLoss = room.fields.find(field => field.name === 'heatLoss').value;
           const intermittencyFactor = this.get('intermittencyFactor');
 
           let emitterSize;
 
+          // emitter size calculation is different depending on the type of the emitter
           switch (room.emitterType) {
 
             case 'Radiator': {
@@ -58,7 +62,7 @@ export default Ember.Component.extend({
 
           totalContributionToHeating += room.heatLoss;
 
-          // set to toggle observer on parent for certificate needs
+          // set to toggle observer on parent component so that we can update the results in certificate component
           this.set('totalRadConv', emitterSize);
 
           Ember.set(room, 'reqEmitterSize', emitterSize);
@@ -73,6 +77,7 @@ export default Ember.Component.extend({
     'siteInputsConfig.@each.value',
     function intermittencyFactor()
     {
+      // grab the heatingDuration param from siteInputsConfig
       const heatingDuration = this.get('siteInputsConfig').find(field => field.name === 'heatingDuration').value;
 
       if (heatingDuration === 'Intermittent') {

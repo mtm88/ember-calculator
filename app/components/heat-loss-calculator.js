@@ -6,12 +6,15 @@ export default Ember.Component.extend({
   selectedDFT: null,
   totalRadConv: null,
 
+  // Define currently active tab for template conditionals needs
   currentInputTab: 'siteInputs', // roomInputs
   currentResultsTab: 'emitterSpecifications', //certificate
 
+  // define which tab to show between Site Inputs and Room Inputs
   siteInputsTab: Ember.computed.equal('currentInputTab', 'siteInputs'),
   roomInputTab: Ember.computed.equal('currentInputTab', 'roomInputs'),
 
+  // define which tab to show between Certificate Tab and Emitter Specification Tab
   certificateTab: Ember.computed.equal('currentResultsTab', 'certificate'),
   emitterSpecTab: Ember.computed.equal('currentResultsTab', 'emitterSpecifications'),
 
@@ -21,7 +24,8 @@ export default Ember.Component.extend({
     },
   },
 
-  // configs to be moved to config files && imported
+  /* siteInputsConfig used in Site Input component, kept in top-level component so we can
+  observe it from certificate component, TODO: can be imported from a JSON file */
   siteInputsConfig: Ember.computed(function siteInputsConfig()
   {
     return [

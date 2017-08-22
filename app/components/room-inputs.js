@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
 
   actions: {
+    // action responsible for adding a room to an existing site Inputs
     addRoom()
     {
       const rooms = this.get('rooms');
@@ -175,6 +176,7 @@ export default Ember.Component.extend({
       });
     },
 
+    // action responsible for adding additional elements to already existing room, like walls, floors etc.
     add(type, i)
     {
       const room = this.get('rooms').find((room, index) => index === i);
@@ -421,10 +423,5 @@ export default Ember.Component.extend({
       return;
     },
 
-    showDetails(i)
-    {
-      this.toggleProperty('showDetailsComp');
-      this.set('chosenRoom', this.get('rooms')[i]);
-    }
   },
 });

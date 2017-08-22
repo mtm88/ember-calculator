@@ -28,6 +28,7 @@ export default Ember.Component.extend({
     const groundFloor = this.get('groundFloor');
 
     if (groundFloor && groundFloor.fields.length > 0) {
+      // grab shortLength and longLength from groundFloor fields array
       const shortLength = groundFloor.fields.find(field => field.name === 'shortLength').value;
       const longLength = groundFloor.fields.find(field => field.name === 'longLength').value;
 
@@ -47,16 +48,20 @@ export default Ember.Component.extend({
 
     if (groundFloor && groundFloor.fields.length > 0) {
 
+      // grab DRT and longLength from roomFields array
       const DRT = roomFields.find(field => field.name === 'DRT').value;
+      // grab insulationType from groundFloor fields array
       const insulationType = groundFloor.fields.find(field => field.name === 'insulationType').value;
 
       // define at which index in the array is the 'DTD' property we want to set
       const DTDIndex = groundFloor.fields.findIndex(field => field.name === 'DTD');
       const DTDField = groundFloor.fields.objectAt(DTDIndex);
 
+      // check if DRT is a number and whether insulationType includes 'So' string to modify the calculation
       if (!isNaN(DRT) && insulationType && insulationType.includes('So')) {
         Ember.set(DTDField, 'value', DRT - 10);
       }
+      // if insulationType doesn't include 'So' string grab the Design External Temperature in C from siteInputsConfig
       else if (!isNaN(DRT) && insulationType) {
         const DETinC = this.get('siteInputsConfig').find(field => field.name === 'DETinC').value;
 
@@ -67,13 +72,17 @@ export default Ember.Component.extend({
 
   mapEdge()
   {
+    // Edge is one of the indexing params for groundFloor uValue calculations, we need to define it to find proper value in JSON table
     const groundFloor = this.get('groundFloor');
 
     if (groundFloor && groundFloor.fields.length > 0) {
+      // grab currentEdge from groundFloor fields array
       const currentEdge = groundFloor.fields.find(field => field.name === 'edgesExposed').value;
 
       if (currentEdge) {
+        // grab edges table from model
         const { edgesExposed } = this.get('model');
+        // match the edge for current groundFloor with the data from model
         const edge = edgesExposed.find(option => option.name === currentEdge).value;
 
         if (edge) {
@@ -95,10 +104,14 @@ export default Ember.Component.extend({
     const groundFloor = this.get('groundFloor');
 
     if (groundFloor && groundFloor.fields.length > 0) {
+      // grab currentType from groundFloor fields array
       const currentType = groundFloor.fields.find(field => field.name === 'insulationType').value;
 
       if (currentType) {
+        // grab Insulation type and thickness data from model
         const { insulationTypeThickness } = this.get('model');
+
+        // grab thickness and column from model data, we need column as the second param with Edge to determine the final index for uValue
         const thickness = insulationTypeThickness.find(option => option.name === currentType).value;
         const column = insulationTypeThickness.find(option => option.name === currentType).col;
 
@@ -128,6 +141,7 @@ export default Ember.Component.extend({
   {
     const groundFloor = this.get('groundFloor');
 
+    // grab both edge & insulation defined in mapEdge and mapInsulationAndColumn
     const edge = groundFloor.fields.find(field => field.name === 'edge').value;
     const insulation = groundFloor.fields.find(field => field.name === 'insulation').value;
 
@@ -136,8 +150,10 @@ export default Ember.Component.extend({
       const secondMinArg = edge > 4 ? (insulation / 10) : 0;
       const searchedIndex = edge + Math.min(0.6, secondMinArg);
 
+      // use the index to find the proper uValue for the floor
       const uValue = this.calculateUValue(searchedIndex);
 
+      // define at which index in the array is the 'U-value' property we want to set
       const uValueIndex = groundFloor.fields.findIndex(field => field.name === 'U-value');
       const uValueField = groundFloor.fields.objectAt(uValueIndex);
 
@@ -150,17 +166,19 @@ export default Ember.Component.extend({
   {
     const groundFloor = this.get('groundFloor');
 
+    // grab area, DTD and uValue from groundFloor fields array
     const area = groundFloor.fields.find(field => field.name === 'area').value;
     const DTD = groundFloor.fields.find(field => field.name === 'DTD').value;
     const uValue = groundFloor.fields.find(field => field.name === 'U-value').value;
 
     if (area && DTD && uValue) {
-      // define at which index in the array is the 'DTD' property we want to set
+      // define at which index in the array is the 'heatLoss' property we want to set
       const heatLossIndex = groundFloor.fields.findIndex(field => field.name === 'heatLoss');
       const heatLossField = groundFloor.fields.objectAt(heatLossIndex);
 
       // set it also as top level prop so we don't need to observe with double @each from parent
       Ember.set(groundFloor, 'heatLoss', area * DTD * uValue);
+
       Ember.set(heatLossField, 'value', area * DTD * uValue);
     }
 
@@ -169,8 +187,11 @@ export default Ember.Component.extend({
   calculateUValue(index)
   {
     const groundFloor = this.get('groundFloor');
+
+    // grab uValues data from model
     const { uValues } = this.get('model');
 
+    // grab shortLength and longLength from groundFloor fields array
     const shortLength = groundFloor.fields.find(field => field.name === 'shortLength').value;
     const longLength = groundFloor.fields.find(field => field.name === 'longLength').value;
 
@@ -178,10 +199,14 @@ export default Ember.Component.extend({
     let columnIndex = groundFloor.fields.find(field => field.name === 'column').value;
 
     let uValue = 0;
+
+    // initialize floorData as null to allow switch to define the property depending on passed index
     let floorData;
 
+    /* different cases have hard-coded ways of calculating floorData so we need to differentiate between them
+    based on the Edge and Column calculated within the component */
     switch (index) {
-
+      // define floorData based on the index that's passed to the function and is based on Edge and Column
       case 1: {
         floorData = uValues.fifth.find(opt => opt.index === parseInt(longLength, 10));
         break;

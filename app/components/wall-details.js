@@ -4,6 +4,7 @@ export default Ember.Component.extend({
 
   didReceiveAttrs()
   {
+    // in case there are values already calculated when wall is being added, fire it up
     this.mapArea();
     this.mapUValue();
     this.mapDTD();
@@ -14,6 +15,7 @@ export default Ember.Component.extend({
     'wall.fields.@each.value',
     function observeFields()
     {
+      // if any changes happened to this specific wall, re-set computed properties
       this.mapArea();
       this.mapUValue();
       this.mapDTD();
@@ -25,6 +27,7 @@ export default Ember.Component.extend({
     const wall = this.get('wall');
 
     if (wall && wall.fields.length > 0) {
+      // grab wallWidth and wallHeight from wall fields array
       const wallWidth = wall.fields.find(field => field.name === 'width').value;
       const wallHeight = wall.fields.find(field => field.name === 'heightOrLength').value;
 
@@ -32,6 +35,7 @@ export default Ember.Component.extend({
       const areaIndex = wall.fields.findIndex(field => field.name === 'area');
       const areaField = wall.fields.objectAt(areaIndex);
 
+      // calculate and set value of areaField
       Ember.set(areaField, 'value', wallWidth * wallHeight);
     }
 
@@ -42,10 +46,14 @@ export default Ember.Component.extend({
     const wall = this.get('wall');
 
     if (wall && wall.fields.length > 0) {
+      // grab construction from wall fields array
       const constrValue = wall.fields.find(field => field.name === 'construction').value;
 
       if (constrValue) {
+        // grab constructionOptions JSON from model;
         const { constructionOptions } = this.get('model');
+
+        // find related constrValue within constructionOptions JSON
         const uValue = constructionOptions.find(option => option.name === constrValue).value;
 
         // define at which index in the array is the 'U-value' property we want to set
@@ -54,6 +62,7 @@ export default Ember.Component.extend({
 
         // if it would be different than 0 it would mean user overriden it on the room config level
         if (uValueField.value === 0) {
+          // set the value of uValueField
           Ember.set(uValueField, 'value', uValue);
         }
       }
@@ -65,19 +74,25 @@ export default Ember.Component.extend({
   mapDTD()
   {
     const wall = this.get('wall');
+    // grab roomFields from room to which this wall belongs to use its fields values in calculations
     const roomFields = this.get('roomFields');
 
+    // grab the ventilationTable JSON from model
     const { ventilationTable } = this.get('model');
+
+    // grab DRT and spaceType from roomFields fields array
     const DRT = roomFields.find(field => field.name === 'DRT').value;
     const spaceType = wall.fields.find(field => field.name === 'spaceType').value;
 
     if (ventilationTable[spaceType]) {
+      // define Temperature related to this Design Temperature Difference
       const relatedTemp = ventilationTable[spaceType].DRT;
 
       // define at which index in the array is the 'U-value' property we want to set
       const DTDIndex = wall.fields.findIndex(field => field.name === 'DTD');
       const DTDField = wall.fields.objectAt(DTDIndex);
 
+      // calculate and set value of DTDField
       Ember.set(DTDField, 'value', DRT - relatedTemp);
     }
 
@@ -88,6 +103,7 @@ export default Ember.Component.extend({
   {
     const wall = this.get('wall');
 
+    // grab area, constrValue, uValue and DTD from wall fields array
     const area = wall.fields.find(field => field.name === 'area').value;
     const constrValue = wall.fields.find(field => field.name === 'construction').value;
     const uValue = wall.fields.find(field => field.name === 'U-value').value;
@@ -98,8 +114,10 @@ export default Ember.Component.extend({
       const heatLossIndex = wall.fields.findIndex(field => field.name === 'heatLoss');
       const heatLossField = wall.fields.objectAt(heatLossIndex);
 
-      // set it also as top level prop so we don't need to observe with double @each from parent
+      // calculate and set it also as top level prop so we don't need to observe with double @each from parent
       Ember.set(wall, 'heatLoss', uValue * DTD * area);
+
+      // calculate and set the value of heatLossField
       Ember.set(heatLossField, 'value', uValue * DTD * area);
     }
 

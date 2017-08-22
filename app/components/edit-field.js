@@ -22,6 +22,7 @@ export default Ember.Component.extend({
   {
     const type = this.get('editField.type');
 
+    // check for the type of editField requested and return field config data appropiate to the type
     if (type === 'siteInputValue') {
       const fieldName = this.get('editField.relatedField');
       const siteInputsConfig = this.get('siteInputsConfig');
