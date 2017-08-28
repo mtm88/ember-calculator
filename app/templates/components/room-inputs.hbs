@@ -24,7 +24,7 @@
 
     {{#each room.walls as |wall index|}}
     <tr>
-      <th>Wall {{index}}</th>
+      <th>Wall, floor or ceiling ({{index}})</th>
 
       {{#each wall.fields as |field|}}
       <td>
@@ -36,7 +36,7 @@
 
     {{#each room.groundFloors as |groundFloor index|}}
     <tr>
-      <th>Ground floor {{index}}</th>
+      <th>Ground floor ({{index}})</th>
 
       {{#each groundFloor.fields as |field|}}
       <td>
@@ -48,7 +48,7 @@
 
     {{#each room.windows as |window index|}}
     <tr>
-      <th>Window {{index}}</th>
+      <th>Window ({{index}})</th>
 
       {{#each window.fields as |field|}}
       <td>
