@@ -1,10 +1,34 @@
 [
   {
     "name": "Manchester",
-    "value": -2.4
+    "value": -3.8
   },
   {
     "name": "Belfast",
-    "value": -1.4
+    "value": -2.8
+  },
+  {
+    "name": "Birmingham",
+    "value": -5.4
+  },
+  {
+    "name": "Cardiff",
+    "value": -3.4
+  },
+  {
+    "name": "Edinburgh",
+    "value": -5.8
+  },
+  {
+    "name": "Glasgow",
+    "value": -6.5
+  },
+  {
+    "name": "London",
+    "value": -3.8
+  },
+  {
+    "name": "Plymouth",
+    "value": -2
   }
 ]
