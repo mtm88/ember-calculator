@@ -2,16 +2,6 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 
-  didReceiveAttrs()
-  {
-    this.mapArea();
-    this.mapDTD();
-    this.mapHeatLoss();
-    this.mapEdge();
-    this.mapUValue();
-    this.mapInsulationAndColumn();
-  },
-
   observeFields: Ember.observer(
     'groundFloor.fields.@each.value',
     function observeFields()

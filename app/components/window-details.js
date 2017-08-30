@@ -2,15 +2,6 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 
-  didReceiveAttrs()
-  {
-    // in case there are values already calculated when wall is being added, fire it up
-    this.mapArea();
-    this.mapWallUValueAndDTD();
-    this.mapUValue();
-    this.mapHeatLoss();
-  },
-
   observeFields: Ember.observer(
     'window.fields.@each.value',
     function observeFields() {

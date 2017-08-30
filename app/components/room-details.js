@@ -7,43 +7,43 @@ export default Ember.Component.extend({
   groundFloors: Ember.computed.alias('room.groundFloors'),
   windows: Ember.computed.alias('room.windows'),
 
-  ventilationRate: Ember.observer('roomFields.@each.value', function ventilationRate()
-  {
-    const roomFields = this.get('roomFields');
+  ventilationRate: Ember.observer(
+    'roomFields.@each.value',
+    function ventilationRate() {
+      const roomFields = this.get('roomFields');
 
-    // grab chimneyField and roomType from roomFields array
-    const chimneyField = roomFields.find(field => field.name === 'chimneyType').value;
-    const roomType = roomFields.find(field => field.name === 'roomType').value;
+      // grab chimneyField and roomType from roomFields array
+      const chimneyField = roomFields.find(field => field.name === 'chimneyType').value;
+      const roomType = roomFields.find(field => field.name === 'roomType').value;
 
-    if (roomType) {
-      // define at which index in the array is the 'ventRate' property we want to set
-      const ventRateIndex = roomFields.findIndex(field => field.name === 'ventilationRate');
-      const ventRateField = roomFields.objectAt(ventRateIndex);
+      if (roomType) {
+        // define at which index in the array is the 'ventRate' property we want to set
+        const ventRateIndex = roomFields.findIndex(field => field.name === 'ventilationRate');
+        const ventRateField = roomFields.objectAt(ventRateIndex);
 
-      // grab ventilationTable and altVentRates from model
-      const { ventilationTable, altVentRates } = this.get('model');
+        // grab ventilationTable and altVentRates from model
+        const { ventilationTable, altVentRates } = this.get('model');
 
-      // there's different calculation for chimney uValue depending on the type of chimney in the environment
-      if (chimneyField === 'No chimney or open fire') {
+        // there's different calculation for chimney uValue depending on the type of chimney in the environment
+        if (chimneyField === 'No chimney or open fire') {
 
-        if (ventilationTable) {
-          Ember.set(ventRateField, 'value', ventilationTable[roomType].VCR.pre2000);
+          if (ventilationTable) {
+            Ember.set(ventRateField, 'value', ventilationTable[roomType].VCR.pre2000);
+          }
+
         }
+        else if (chimneyField) {
 
-      }
-      else if (chimneyField) {
+          if (altVentRates) {
+            // calculate and set ventRateField as max value from altVentRates array values
+            Ember.set(ventRateField, 'value', Math.max(...altVentRates[chimneyField]));
+          }
 
-        if (altVentRates) {
-          // calculate and set ventRateField as max value from altVentRates array values
-          Ember.set(ventRateField, 'value', Math.max(...altVentRates[chimneyField]));
         }
-
       }
-    }
-  }),
+    }),
 
-  DRT: Ember.observer('roomFields.@each.value', function DRT()
-  {
+  DRT: Ember.observer('roomFields.@each.value', function DRT() {
     const roomFields = this.get('roomFields');
 
     // grab roomType from roomFields array
@@ -63,8 +63,7 @@ export default Ember.Component.extend({
 
   }),
 
-  roomVolume: Ember.observer('roomFields.@each.value', function roomVolume()
-  {
+  roomVolume: Ember.observer('roomFields.@each.value', function roomVolume() {
     const roomFields = this.get('roomFields');
 
     // grab width, height and length from roomFields array
@@ -87,29 +86,27 @@ export default Ember.Component.extend({
     'roomFields.@each.value',
     'siteInputsConfig.@each.value',
     'ventilationRate',
-    function DTD()
-    {
-    const roomFields = this.get('roomFields');
+    function DTD() {
+      const roomFields = this.get('roomFields');
 
-    // grab DRT from roomFields array
-    const DRT = roomFields.find(field => field.name === 'DRT').value;
+      // grab DRT from roomFields array
+      const DRT = roomFields.find(field => field.name === 'DRT').value;
 
-    // grab Difference Environment Temperature in C from siteInputsConfig
-    const DETinC = this.get('siteInputsConfig').find(field => field.name === 'DETinC').value;
+      // grab Difference Environment Temperature in C from siteInputsConfig
+      const DETinC = this.get('siteInputsConfig').find(field => field.name === 'DETinC').value;
 
-    if (DRT && DETinC) {
-      // define at which index in the array is the 'DTD' property we want to set
-      const DTDIndex = roomFields.findIndex(field => field.name === 'DTD');
-      const DTDField = roomFields.objectAt(DTDIndex);
+      if (DRT && DETinC) {
+        // define at which index in the array is the 'DTD' property we want to set
+        const DTDIndex = roomFields.findIndex(field => field.name === 'DTD');
+        const DTDField = roomFields.objectAt(DTDIndex);
 
-      // calculate and set the value of DTDField
-      Ember.set(DTDField, 'value', DRT - DETinC);
-    }
+        // calculate and set the value of DTDField
+        Ember.set(DTDField, 'value', DRT - DETinC);
+      }
 
-  }),
+    }),
 
-  heatLoss: Ember.observer('roomFields.@each.value', function heatLoss()
-  {
+  heatLoss: Ember.observer('roomFields.@each.value', function heatLoss() {
     // grab the current room
     const room = this.get('room');
     const roomFields = this.get('roomFields');
@@ -133,8 +130,7 @@ export default Ember.Component.extend({
 
   }),
 
-  isConvOrRad: Ember.observer('roomFields.@each.value', function isConvOrRad()
-  {
+  isConvOrRad: Ember.observer('roomFields.@each.value', function isConvOrRad() {
     const room = this.get('room');
     const roomFields = this.get('roomFields');
 
@@ -156,8 +152,7 @@ export default Ember.Component.extend({
     'walls.@each.heatLoss',
     'groundFloors.@each.heatLoss',
     'windows.@each.heatLoss',
-    function combinedHeatLoss()
-    {
+    function combinedHeatLoss() {
       const room = this.get('room');
       const roomFields = this.get('roomFields');
 
@@ -179,6 +174,6 @@ export default Ember.Component.extend({
 
       // calculate and return the combinedHeatLoss to be displayed in the template
       return roomHeatLoss + wallsHeatLoss + groundFloorsHeatLoss + windowsHeatLoss;
-  }),
+    }),
 
 });

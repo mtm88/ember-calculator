@@ -2,15 +2,6 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 
-  didReceiveAttrs()
-  {
-    // in case there are values already calculated when wall is being added, fire it up
-    this.mapArea();
-    this.mapUValue();
-    this.mapDTD();
-    this.mapHeatLoss();
-  },
-
   observeFields: Ember.observer(
     'wall.fields.@each.value',
     function observeFields()
@@ -79,7 +70,6 @@ export default Ember.Component.extend({
 
     // grab the ventilationTable JSON from model
     const { ventilationTable } = this.get('model');
-
     // grab DRT and spaceType from roomFields fields array
     const DRT = roomFields.find(field => field.name === 'DRT').value;
     const spaceType = wall.fields.find(field => field.name === 'spaceType').value;
@@ -105,11 +95,10 @@ export default Ember.Component.extend({
 
     // grab area, constrValue, uValue and DTD from wall fields array
     const area = wall.fields.find(field => field.name === 'area').value;
-    const constrValue = wall.fields.find(field => field.name === 'construction').value;
     const uValue = wall.fields.find(field => field.name === 'U-value').value;
     const DTD = wall.fields.find(field => field.name === 'DTD').value;
 
-    if (constrValue && area && !isNaN(DTD)) {
+    if (area && !isNaN(DTD)) {
       // define at which index in the array is the 'heatLoss' property we want to set
       const heatLossIndex = wall.fields.findIndex(field => field.name === 'heatLoss');
       const heatLossField = wall.fields.objectAt(heatLossIndex);
