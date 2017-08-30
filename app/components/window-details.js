@@ -12,8 +12,7 @@ export default Ember.Component.extend({
       this.mapHeatLoss();
     }),
 
-  mapArea()
-  {
+  mapArea() {
     const window = this.get('window');
 
     if (window && window.fields.length > 0) {
@@ -31,8 +30,7 @@ export default Ember.Component.extend({
 
   },
 
-  mapWallUValueAndDTD()
-  {
+  mapWallUValueAndDTD() {
     const window = this.get('window');
 
     // grab typeOfWall from window fields array
@@ -42,7 +40,7 @@ export default Ember.Component.extend({
     if (typeOfWall) {
       // initialize uValue and DTD properties for iteration beneath
       let wallUValue;
-      let wallDTD;
+      let wallDTD = 0;
 
       // find the wall it's assigned to and take its U-value
       this.get('walls').forEach((wall) => {
@@ -71,8 +69,7 @@ export default Ember.Component.extend({
 
   },
 
-  mapUValue()
-  {
+  mapUValue() {
     const window = this.get('window');
 
     if (window && window.fields.length > 0) {
@@ -100,8 +97,7 @@ export default Ember.Component.extend({
 
   },
 
-  mapHeatLoss()
-  {
+  mapHeatLoss() {
     const window = this.get('window');
 
     // grab glazingValue, wallUValue, uValue and DTD from window fields array
@@ -110,15 +106,19 @@ export default Ember.Component.extend({
     const uValue = window.fields.find(field => field.name === 'U-value').value;
     const DTD = window.fields.find(field => field.name === 'DTD').value;
 
+    // find out if there's a U-value for chosen glazing value in Construction Opts
+    const { constructionOptions } = this.get('model');
+    const glazingUValue = constructionOptions.find(opt => opt.name === glazingValue);
+
     //initiate the heatLoss variable
     let heatLoss;
 
     // there is different heatLoss calculation based on whether the window has glazing value
-    if (glazingValue) {
+    if (glazingUValue) {
       heatLoss = wallUValue * DTD * (uValue - wallUValue);
     }
     else {
-      heatLoss = wallUValue * DTD * (wallUValue - uValue);
+      heatLoss = (uValue - wallUValue) * DTD * uValue;
     }
 
     // if any of the values is missing and end result is not a number, set to empty string

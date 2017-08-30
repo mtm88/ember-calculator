@@ -157,7 +157,7 @@ export default Ember.Component.extend({
       const roomFields = this.get('roomFields');
 
       // grab roomHeatLoss from roomFields array
-      const roomHeatLoss = roomFields.find(field => field.name === 'heatLoss').value;
+      const roomHeatLoss = parseFloat(roomFields.find(field => field.name === 'heatLoss').value, 10);
 
       // initialize heatLoss values for each additional part of the room like walls, floors etc.
       let wallsHeatLoss = 0;
@@ -170,10 +170,10 @@ export default Ember.Component.extend({
       this.get('windows').forEach(window => !isNaN(window.heatLoss) ? wallsHeatLoss += window.heatLoss : null);
 
       // set it also as top level prop so we don't need to observe with double @each from parent
-      Ember.set(room, 'combinedHeatLoss', roomHeatLoss + wallsHeatLoss + groundFloorsHeatLoss + windowsHeatLoss);
+      Ember.set(room, 'combinedHeatLoss', roomHeatLoss + parseFloat(wallsHeatLoss, 10) + groundFloorsHeatLoss + windowsHeatLoss);
 
       // calculate and return the combinedHeatLoss to be displayed in the template
-      return roomHeatLoss + wallsHeatLoss + groundFloorsHeatLoss + windowsHeatLoss;
+      return roomHeatLoss + parseFloat(wallsHeatLoss, 10) + groundFloorsHeatLoss + windowsHeatLoss;
     }),
 
 });

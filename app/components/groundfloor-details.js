@@ -52,7 +52,7 @@ export default Ember.Component.extend({
         Ember.set(DTDField, 'value', DRT - 10);
       }
       // if insulationType doesn't include 'So' string grab the Design External Temperature in C from siteInputsConfig
-      else if (!isNaN(DRT) && insulationType) {
+      else if (!isNaN(DRT)) {
         const DETinC = this.get('siteInputsConfig').find(field => field.name === 'DETinC').value;
 
         Ember.set(DTDField, 'value', DRT - DETinC);
@@ -135,7 +135,13 @@ export default Ember.Component.extend({
     const edge = groundFloor.fields.find(field => field.name === 'edge').value;
     const insulation = groundFloor.fields.find(field => field.name === 'insulation').value;
 
-    if (edge && insulation) {
+    const insulationType = groundFloor.fields.find(field => field.name === 'insulationType').value;
+
+    // define at which index in the array is the 'U-value' property we want to set
+    const uValueIndex = groundFloor.fields.findIndex(field => field.name === 'U-value');
+    const uValueField = groundFloor.fields.objectAt(uValueIndex);
+
+    if (edge && insulation && insulationType) {
       // define Math.min 2nd value by checking insulation properties
       const secondMinArg = edge > 4 ? (insulation / 10) : 0;
       const searchedIndex = edge + Math.min(0.6, secondMinArg);
@@ -143,11 +149,11 @@ export default Ember.Component.extend({
       // use the index to find the proper uValue for the floor
       const uValue = this.calculateUValue(searchedIndex);
 
-      // define at which index in the array is the 'U-value' property we want to set
-      const uValueIndex = groundFloor.fields.findIndex(field => field.name === 'U-value');
-      const uValueField = groundFloor.fields.objectAt(uValueIndex);
-
       Ember.set(uValueField, 'value', uValue);
+    }
+    else {
+      const customUValue = groundFloor.fields.find(field => field.name === 'U-value').value;
+      Ember.set(uValueField, 'value', customUValue);
     }
 
   },
