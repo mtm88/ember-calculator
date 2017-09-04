@@ -171,7 +171,41 @@ export default Ember.Component.extend({
             value: 0,
             emiterSpec: true,
           },
-
+          {
+            name: 'radSurfFinFactor',
+            label: 'Radiator Surface Finish Factor F1',
+            type: 'text',
+            value: 0,
+            emiterSpec: true,
+          },
+          {
+            name: 'radEncFactor',
+            label: '"Radiator Enclosure Factor F2',
+            type: 'text',
+            value: 0,
+            emiterSpec: true,
+          },
+          {
+            name: 'nCoefficient',
+            label: 'n-coefficient (radiators only)',
+            type: 'text',
+            value: 0,
+            emiterSpec: true,
+          },
+          {
+            name: 'convTempFactor',
+            label: 'Convector Temperature Factor (FTEMP)',
+            type: 'text',
+            value: 0,
+            emiterSpec: true,
+          },
+          {
+            name: 'radTempFactor',
+            label: 'Radiator Temperature Factor (FTEMP)',
+            type: 'text',
+            value: 0,
+            emiterSpec: true,
+          },
         ],
       });
     },

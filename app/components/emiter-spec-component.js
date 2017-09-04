@@ -26,18 +26,15 @@ export default Ember.Component.extend({
     'rooms.@each.nCoefficient',
     'rooms.@each.convTempFactor',
     'rooms.@each.radTempFactor',
-    'rooms.@each.heatLoss',
+    'rooms.@each.combinedHeatLoss',
     'rooms.@each.isConvOrRad',
-    'rooms.groundFloors.@each.heatLoss',
-    'rooms.walls.@each.heatLoss',
-    'rooms.windows.@each.heatLoss',
     function totalContrToDHL() {
       const rooms = this.get('rooms');
 
+      // initialize the totalContrToDHL counter
       let totalContributionToHeating = 0;
 
       rooms.forEach((room) => {
-        debugger;
         // check for the flag on the room that defines whether a room has a Convector or Radiator
         if (room.isConvOrRad) {
           // find heatLoss value in the room fields array
@@ -50,26 +47,29 @@ export default Ember.Component.extend({
           switch (room.emitterType) {
 
             case 'Radiator': {
+              // find and define all the variables we need from room config
               const radSurfFinFactor = room.fields.find(field => field.name === 'radSurfFinFactor').value;
               const radEncFactor = room.fields.find(field => field.name === 'radEncFactor').value;
               const radTempFactor = room.fields.find(field => field.name === 'radTempFactor').value;
+              
+              // define emitterSize for this specific room so later on we know whether it counts to totalContributionToHeating
               emitterSize = heatLoss / (radSurfFinFactor * radEncFactor * intermittencyFactor * radTempFactor);
               break;
             }
             case 'Convector': {
+              // find and define all the variables we need from room config
               const convTempFactor = room.fields.find(field => field.name === 'convTempFactor').value;
+
+              // define emitterSize for this specific room so later on we know whether it counts to totalContributionToHeating
               emitterSize = heatLoss / (intermittencyFactor * convTempFactor);
               break;
             }
           }
-
+          
+          // Room has contribution to heating only if it's emitter size is bigger than 0
           if (emitterSize > 0) {
             totalContributionToHeating += room.combinedHeatLoss;
           }
-          // set to toggle observer on parent component so that we can update the results in certificate component
-          // this.set('totalRadConv', emitterSize);
-
-          // Ember.set(room, 'reqEmitterSize', emitterSize);
         }
       });
 
@@ -83,6 +83,7 @@ export default Ember.Component.extend({
       // grab the heatingDuration param from siteInputsConfig
       const heatingDuration = this.get('siteInputsConfig').find(field => field.name === 'heatingDuration').value;
 
+      // hardcoded values for intermittencyFactor
       if (heatingDuration === 'Intermittent') {
         return 0.83;
       }
