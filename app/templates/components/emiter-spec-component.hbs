@@ -40,7 +40,7 @@
       Design room temperature (°C)
     </th>
     <th>
-      Design heat loss (W)
+      Base Room heat loss (W)
     </th>
     <th>
       Radiator Surface Finish Factor F1
@@ -56,6 +56,9 @@
     </th>
     <th>
       Radiator Temperature Factor (FTEMP)
+    </th>
+    <th>
+      Combined Room heat loss (W)
     </th>
   </tr>
 
@@ -77,21 +80,7 @@
 
       {{/each}}
 
-      <td>
-        {{input value=room.radSurfFinFactor}}
-      </td>
-      <td>
-        {{input value=room.radEncFactor}}
-      </td>
-      <td>
-        {{input value=room.nCoefficient}}
-      </td>
-      <td>
-        {{input value=room.convTempFactor}}
-      </td>
-      <td>
-        {{input value=room.radTempFactor}}
-      </td>
+      {{room.combinedHeatLoss}}
 
     </tr>
 

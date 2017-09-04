@@ -52,7 +52,7 @@ export default Ember.Component.extend({
                 'Adjoining dwelling',
               ],
               type: 'select',
-              value: 'Bedroom',
+              value: 'Outside',
             },
             {
               name: 'heightOrLength',
@@ -74,13 +74,13 @@ export default Ember.Component.extend({
                 return constructionOptions.map(field => field.name);
               })(),
               type: 'select',
-              value: 'Render 19mm, standard aerated block 100mm, mineral wool slab in cavity 50mm, 100mm standard aerated block, 13mm plaster',
+              value: ''
             },
             {
               name: 'U-value',
               label: 'U-value',
               type: 'number',
-              value: 0,
+              value: 0.2,
             },
             {
               label: 'area',
@@ -211,7 +211,7 @@ export default Ember.Component.extend({
                   const { insulationTypeThickness } = this.get('model');
                   return insulationTypeThickness.map(field => field.name);
                 })(),
-                value: 'Suspended 50mm insulation',
+                value: 'Solid floor - Enter a U-value',
               },
               {
                 name: 'U-value',
@@ -480,6 +480,31 @@ export default Ember.Component.extend({
             label: 'Heat loss (W)',
             type: 'constant',
             value: 0,
+            emiterSpec: true,
+          },
+          {
+            name: 'radSurfFinFactor',
+            value: 1,
+            emiterSpec: true,
+          },
+          {
+            name: 'radEncFactor',
+            value: 1,
+            emiterSpec: true,
+          },
+          {
+            name: 'nCoefficient',
+            value: 1.3,
+            emiterSpec: true,
+          },
+          {
+            name: 'convTempFactor',
+            value: 0.85,
+            emiterSpec: true,
+          },
+          {
+            name: 'radTempFactor',
+            value: '',
             emiterSpec: true,
           },
         ],
@@ -1018,6 +1043,31 @@ export default Ember.Component.extend({
             value: 0,
             emiterSpec: true,
           },
+          {
+            name: 'radSurfFinFactor',
+            value: 1,
+            emiterSpec: true,
+          },
+          {
+            name: 'radEncFactor',
+            value: 1,
+            emiterSpec: true,
+          },
+          {
+            name: 'nCoefficient',
+            value: 1.3,
+            emiterSpec: true,
+          },
+          {
+            name: 'convTempFactor',
+            value: 0.85,
+            emiterSpec: true,
+          },
+          {
+            name: 'radTempFactor',
+            value: '',
+            emiterSpec: true,
+          },
         ],
       });
 
@@ -1399,6 +1449,31 @@ export default Ember.Component.extend({
             value: 0,
             emiterSpec: true,
           },
+          {
+            name: 'radSurfFinFactor',
+            value: 1,
+            emiterSpec: true,
+          },
+          {
+            name: 'radEncFactor',
+            value: 1,
+            emiterSpec: true,
+          },
+          {
+            name: 'nCoefficient',
+            value: 1.3,
+            emiterSpec: true,
+          },
+          {
+            name: 'convTempFactor',
+            value: 0.85,
+            emiterSpec: true,
+          },
+          {
+            name: 'radTempFactor',
+            value: 0.2,
+            emiterSpec: true,
+          },
         ],
       });
 
@@ -1420,13 +1495,13 @@ export default Ember.Component.extend({
           name: 'localCity',
           label: 'Local City (to determine DET)',
           options: this.get('model.cities').map(city => city.name),
-          value: 'Belfast',
+          value: 'Manchester',
           type: 'select',
         },
         {
           name: 'DETinC',
           label: 'Design External Temperature (DET) in °C',
-          value: -1.4,
+          value: -3.8,
           type: 'number',
         },
         {
