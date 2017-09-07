@@ -1,63 +1,72 @@
 <h2>Room Inputs</h2>
 
-<button {{action 'addRoom'}}>Add room</button> {{yield}}
+<button {{action 'addRoom'}}>
+  Add room
+</button>
 
 {{#each rooms as |room index|}}
+  <table class="calcTable">
+    <tbody>
+      <tr>
+        <td>
+          <p>
+            <b>{{room.name}}</b>
+          </p>
 
-  <table roomDetails>
-    <tr>
+          <button {{action 'add' 'wall' index}}>
+            Add Wall/Floor/Ceiling
+          </button>
 
-      <td>
-        <p><b>{{room.name}}</b></p>
-        <button {{action 'add' 'wall' index}}>Add Wall/Floor/Ceiling</button>
-        <button {{action 'add' 'groundFloor' index}}>Add Ground Floor</button>
-        <button {{action 'add' 'window' index}}>Add Window/Door</button>
-      </td>
+          <button {{action 'add' 'groundFloor' index}}>
+            Add Ground Floor
+          </button>
 
-      {{#each room.fields as |field|}}
-      <td>
-        {{edit-field editField=field}}
-      </td>
+          <button {{action 'add' 'window' index}}>
+            Add Window/Door
+          </button>
+
+        </td>
+
+        {{#each room.fields as |field|}}
+        <td>{{edit-field editField=field}}</td>
+        {{/each}}
+
+      </tr>
+
+      {{#each room.walls as |wall index|}}
+        <tr>
+          <th>Wall, floor or ceiling ({{index}})</th>
+
+          {{#each wall.fields as |field|}}
+          <td>{{edit-field editField=field}}</td>
+          {{/each}}
+
+        </tr>
       {{/each}}
 
-    </tr>
+      {{#each room.groundFloors as |groundFloor index|}}
+        <tr>
+          <th>Ground floor ({{index}})</th>
 
-    {{#each room.walls as |wall index|}}
-    <tr>
-      <th>Wall, floor or ceiling ({{index}})</th>
+          {{#each groundFloor.fields as |field|}}
+          <td>{{edit-field editField=field}}</td>
+          {{/each}}
 
-      {{#each wall.fields as |field|}}
-      <td>
-        {{edit-field editField=field}}
-      </td>
+        </tr>
       {{/each}}
-    </tr>
-    {{/each}}
 
-    {{#each room.groundFloors as |groundFloor index|}}
-    <tr>
-      <th>Ground floor ({{index}})</th>
+      {{#each room.windows as |window index|}}
+        <tr>
+          <th>Window ({{index}})</th>
 
-      {{#each groundFloor.fields as |field|}}
-      <td>
-        {{edit-field editField=field}}
-      </td>
+          {{#each window.fields as |field|}}
+          <td>{{edit-field editField=field}}</td>
+          {{/each}}
+
+        </tr>
       {{/each}}
-    </tr>
-    {{/each}}
-
-    {{#each room.windows as |window index|}}
-    <tr>
-      <th>Window ({{index}})</th>
-
-      {{#each window.fields as |field|}}
-      <td>
-        {{edit-field editField=field}}
-      </td>
-      {{/each}}
-    </tr>
-    {{/each}}
-
+      
+    </tbody>
   </table>
 
   {{room-details room=room siteInputsConfig=siteInputsConfig model=model}}

@@ -1,4 +1,6 @@
-<p><b>{{editField.label}}:</b></p>
+<p>
+  <b>{{editField.label}}:</b>
+</p>
 
 {{#if typeIsSelect}}
   {{#power-select
@@ -14,7 +16,13 @@
   {{input type='text' value=editField.value}}
 
 {{else if typeIsPickADate}}
-  {{pick-a-date date=(readonly editField.date) on-selected=(action (mut editField.date)) placeholder="Pick a date" options=(readonly editField.extraPickadateOptions)}}
+
+  {{pick-a-date
+    date=(readonly editField.date) 
+    on-selected=(action (mut editField.date)) 
+    placeholder="Pick a date" 
+    options=(readonly editField.extraPickadateOptions)
+  }}
 
 {{else if typeIsConstant}}
   {{editField.value}}
@@ -22,5 +30,3 @@
 {{else if typeIsSiteInputValue}}
   {{siteInputValue}}
 {{/if}}
-
-{{yield}}

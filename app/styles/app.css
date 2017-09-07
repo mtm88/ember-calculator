@@ -21,16 +21,12 @@ button {
   width: 150px;
 }
 
-[certificate-table] {
+.certificateTable {
   width: 80%;
 }
 
-[warning-text] {
+.warning-text {
   color: #FF0000;
-}
-
-[bold] {
-  font-weight: bold;
 }
 
 .calcTable {

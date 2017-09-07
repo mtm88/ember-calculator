@@ -1,48 +1,39 @@
 <hr>
-<table roomDetails>
+
+<table class="calcTable">
+  <tbody>
 
   {{#each roomFields as |field|}}
     <tr>
-      <td>
-        {{field.name}}
-      </td>
-      <td>
-        {{field.value}}
-      </td>
+      <td>{{field.name}}</td>
+      <td>{{field.value}}</td>
     </tr>
   {{/each}}
 
+  </tbody>
 </table>
 
-<h3>
-    Walls, floors not ground floors and ceiling
-</h3>
+<h3>Walls, floors not ground floors and ceiling</h3>
 
   {{#each walls as |wall|}}
     {{wall-details wall=wall model=model roomFields=roomFields}}
   {{/each}}
 
-<h3>
-    Ground floors
-</h3>
+<h3>Ground floors</h3>
 
   {{#each groundFloors as |groundFloor|}}
-    {{groundfloor-details groundFloor=groundFloor model=model roomFields=roomFields siteInputsConfig=siteInputsConfig}}
+    {{groundfloor-details 
+      groundFloor=groundFloor 
+      model=model 
+      roomFields=roomFields 
+      siteInputsConfig=siteInputsConfig
+    }}
   {{/each}}
 
-<h3>
-    Windows and doors
-</h3>
+<h3>Windows and doors</h3>
 
   {{#each windows as |window|}}
     {{window-details window=window walls=walls model=model}}
   {{/each}}
 
-<h3>
-  Room heat loss (W): {{combinedHeatLoss}}
-</h3>
-
-
-
-
-{{yield}}
+<h3>Room heat loss (W): {{combinedHeatLoss}}</h3>

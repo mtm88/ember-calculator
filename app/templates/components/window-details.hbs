@@ -1,11 +1,12 @@
-<table roomDetails>
+<table class="calcTable">
+  <tbody>
 
-  {{#each window.fields as |field|}}
-    <tr>
-      <td>{{field.label}}: </td>
-      <td>{{field.value}}</td>
-    </tr>
-  {{/each}}
+    {{#each window.fields as |field|}}
+      <tr>
+        <td>{{field.label}}: </td>
+        <td>{{field.value}}</td>
+      </tr>
+    {{/each}}
 
+  </tbody>
 </table>
-{{yield}}
