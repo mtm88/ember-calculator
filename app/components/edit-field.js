@@ -11,7 +11,6 @@ export default Ember.Component.extend({
     if (type === 'number' || type === 'text') {
       return true;
     }
-
   }),
 
   typeIsPickADate: Ember.computed.equal('editField.type', 'pickADate'),

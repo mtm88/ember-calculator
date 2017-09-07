@@ -1,121 +1,78 @@
 <h2>Emitter Specifications</h2>
 
-
-<table roomDetails>
-  <tr>
-    <td>
-      Enter Design flow (Tf) Temperature
-    </td>
-    <td>
-    {{#power-select
-      options=DFTOptions
-      onchange=(action (mut selectedDFT))
-      selected=selectedDFT
-      as |option|}}
-        {{option.name}}
-    {{/power-select}}
-    </td>
-    <td>
-      {{input value=selectedDFT.value}}
-    </td>
-    <td>
-      MWT
-    </td>
-    <td>
-      {{MWT}}
-    </td>
-  </tr>
-
-  <tr>
-    <th>
-      Room Number
-    </th>
-    <th>
-      Room Name
-    </th>
-    <th>
-      Emitter type
-    </th>
-    <th>
-      Design room temperature (°C)
-    </th>
-    <th>
-      Base Room heat loss (W)
-    </th>
-    <th>
-      Radiator Surface Finish Factor F1
-    </th>
-    <th>
-      Radiator Enclosure Factor F2
-    </th>
-    <th>
-      n-coefficient (radiators only)
-    </th>
-    <th>
-      Convector Temperature Factor (FTEMP)
-    </th>
-    <th>
-      Radiator Temperature Factor (FTEMP)
-    </th>
-    <th>
-      Combined Room heat loss (W)
-    </th>
-  </tr>
-
-  {{#each rooms as |room index|}}
-
+<table class="calcTable">
+  <tbody>
     <tr>
-
+      <td>Enter Design flow (Tf) Temperature</td>
       <td>
-        {{index}}
+
+      {{#power-select
+        options=DFTOptions
+        onchange=(action (mut selectedDFT))
+        selected=selectedDFT
+        as |option|}}
+        {{option.name}}
+      {{/power-select}}
+
       </td>
-
-      {{#each room.fields as |field|}}
-
-        {{#if field.emiterSpec}}
-          <td>
-            {{field.value}}
-          </td>
-        {{/if}}
-
-      {{/each}}
-
-      {{room.combinedHeatLoss}}
-
+      <td>{{input value=selectedDFT.value}}</td>
+      <td>MWT</td>
+      <td>{{MWT}}</td>
     </tr>
-
-  {{/each}}
-
-  <tr>
-    <td>
-      Total Heat Loss:
-    </td>
-    <td>
-      {{totalHeatLoss}}
-    </td>
-  </tr>
-
-  <tr>
-    <td>
-      Total Rad/Conv. contribution to DHL (W)
-    </td>
-    <td>
-      {{totalContrToDHL}}
-    </td>
-  </tr>
-  <tr>
-
-    <td>
-      Intermittency Factor
-    </td>
-    <td>
-      {{intermittencyFactor}}
-    </td>
-  </tr>
-
+  </tbody>
 </table>
 
+<table class="calcTable">
+  <thead>
+    <tr>
+      <th>Room Number</th>
+      <th>Room Name</th>
+      <th>Emitter type</th>
+      <th>Design room temperature (°C)</th>
+      <th>Base Room heat loss (W)</th>
+      <th>Radiator Surface Finish Factor F1</th>
+      <th>Radiator Enclosure Factor F2</th>
+      <th>n-coefficient (radiators only)</th>
+      <th>Convector Temperature Factor (FTEMP)</th>
+      <th>Radiator Temperature Factor (FTEMP)</th>
+      <th>Combined Room heat loss (W)</th>
+    </tr>
+  </thead>
 
+  <tbody>
 
+  {{#each rooms as |room index|}}
+    <tr>
+      <td>{{index}}</td>
 
-{{yield}}
+      {{#each room.fields as |field|}}
+        {{#if field.emiterSpec}}
+          <td>{{field.value}}</td>
+        {{/if}}
+      {{/each}}
+
+      <td>{{room.combinedHeatLoss}}</td>
+    </tr>
+  {{/each}}
+
+  </tbody>
+</table>
+
+<table class="calcTable">
+  <tbody>
+    <tr>
+      <td>Total Heat Loss:</td>
+      <td>{{totalHeatLoss}}</td>
+    </tr>
+
+    <tr>
+      <td>Total Rad/Conv. contribution to DHL (W)</td>
+      <td>{{totalContrToDHL}}</td>
+    </tr>
+
+    <tr>
+      <td>Intermittency Factor</td>
+      <td>{{intermittencyFactor}}</td>
+    </tr>
+  </tbody>
+</table>

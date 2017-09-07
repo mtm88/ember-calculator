@@ -27,7 +27,6 @@ export default Ember.Component.extend({
         // set the value of DETField
         Ember.set(DETField, 'value', chosenCityTemp);
       }
-
     }
   ),
 

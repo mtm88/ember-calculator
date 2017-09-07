@@ -9,7 +9,8 @@ export default Ember.Component.extend({
 
   ventilationRate: Ember.observer(
     'roomFields.@each.value',
-    function ventilationRate() {
+    function ventilationRate()
+    {
       const roomFields = this.get('roomFields');
 
       // grab chimneyField and roomType from roomFields array
@@ -30,7 +31,6 @@ export default Ember.Component.extend({
           if (ventilationTable) {
             Ember.set(ventRateField, 'value', ventilationTable[roomType].VCR.pre2000);
           }
-
         }
         else if (chimneyField) {
 
@@ -38,12 +38,12 @@ export default Ember.Component.extend({
             // calculate and set ventRateField as max value from altVentRates array values
             Ember.set(ventRateField, 'value', Math.max(...altVentRates[chimneyField]));
           }
-
         }
       }
     }),
 
-  DRT: Ember.observer('roomFields.@each.value', function DRT() {
+  DRT: Ember.observer('roomFields.@each.value', function DRT()
+  {
     const roomFields = this.get('roomFields');
 
     // grab roomType from roomFields array
@@ -60,10 +60,10 @@ export default Ember.Component.extend({
       // calculate and set the value of roomTypeField
       Ember.set(roomTypeField, 'value', parseInt(ventilationTable[roomType].DRT, 10));
     }
-
   }),
 
-  roomVolume: Ember.observer('roomFields.@each.value', function roomVolume() {
+  roomVolume: Ember.observer('roomFields.@each.value', function roomVolume()
+  {
     const roomFields = this.get('roomFields');
 
     // grab width, height and length from roomFields array
@@ -79,14 +79,14 @@ export default Ember.Component.extend({
       // calculate and set the value of roomVolField
       Ember.set(roomVolField, 'value', width * height * length);
     }
-
   }),
 
   DTD: Ember.observer(
     'roomFields.@each.value',
     'siteInputsConfig.@each.value',
     'ventilationRate',
-    function DTD() {
+    function DTD()
+    {
       const roomFields = this.get('roomFields');
 
       // grab DRT from roomFields array
@@ -103,10 +103,10 @@ export default Ember.Component.extend({
         // calculate and set the value of DTDField
         Ember.set(DTDField, 'value', DRT - DETinC);
       }
-
     }),
 
-  heatLoss: Ember.observer('roomFields.@each.value', function heatLoss() {
+  heatLoss: Ember.observer('roomFields.@each.value', function heatLoss()
+  {
     // grab the current room
     const room = this.get('room');
     const roomFields = this.get('roomFields');
@@ -127,10 +127,10 @@ export default Ember.Component.extend({
       // calculate and set the value of heatLossField
       Ember.set(heatLossField, 'value', Math.round(0.33 * roomVolume * ventilationRate * DTD, 2));
     }
-
   }),
 
-  isConvOrRad: Ember.observer('roomFields.@each.value', function isConvOrRad() {
+  isConvOrRad: Ember.observer('roomFields.@each.value', function isConvOrRad()
+  {
     const room = this.get('room');
     const roomFields = this.get('roomFields');
 
@@ -144,7 +144,6 @@ export default Ember.Component.extend({
       // set the value of emitterType
       Ember.set(room, 'emitterType', emitterType);
     }
-
   }),
 
   combinedHeatLoss: Ember.computed(
@@ -152,7 +151,8 @@ export default Ember.Component.extend({
     'walls.@each.heatLoss',
     'groundFloors.@each.heatLoss',
     'windows.@each.heatLoss',
-    function combinedHeatLoss() {
+    function combinedHeatLoss()
+    {
       const room = this.get('room');
       const roomFields = this.get('roomFields');
 
@@ -175,5 +175,4 @@ export default Ember.Component.extend({
       // calculate and return the combinedHeatLoss to be displayed in the template
       return roomHeatLoss + parseFloat(wallsHeatLoss, 10) + groundFloorsHeatLoss + windowsHeatLoss;
     }),
-
 });

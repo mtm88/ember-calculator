@@ -18,7 +18,8 @@ export default Ember.Component.extend({
   certificateTab: Ember.computed.equal('currentResultsTab', 'certificate'),
   emitterSpecTab: Ember.computed.equal('currentResultsTab', 'emitterSpecifications'),
 
-  actions: {
+  actions: 
+  {
     setTab(tabType, chosenTab) {
       this.set(tabType, chosenTab);
     },
@@ -1506,8 +1507,6 @@ export default Ember.Component.extend({
           },
         ],
       });
-
-
 
       // setup site Inputs Config to values from the example
       this.set('siteInputsConfig', [

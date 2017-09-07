@@ -4,7 +4,8 @@ export default Ember.Component.extend({
 
   observeFields: Ember.observer(
     'window.fields.@each.value',
-    function observeFields() {
+    function observeFields()
+    {
       // if any changes happened to this specific wall, re-set computed properties
       this.mapArea();
       this.mapWallUValueAndDTD();
@@ -12,7 +13,8 @@ export default Ember.Component.extend({
       this.mapHeatLoss();
     }),
 
-  mapArea() {
+  mapArea()
+  {
     const window = this.get('window');
 
     if (window && window.fields.length > 0) {
@@ -27,10 +29,10 @@ export default Ember.Component.extend({
       // calculate and set the value of areaField
       Ember.set(areaField, 'value', windowHeight * windowWidth);
     }
-
   },
 
-  mapWallUValueAndDTD() {
+  mapWallUValueAndDTD()
+  {
     const window = this.get('window');
 
     // grab typeOfWall from window fields array
@@ -44,6 +46,7 @@ export default Ember.Component.extend({
 
       // find the wall it's assigned to and take its U-value
       this.get('walls').forEach((wall) => {
+
         // find a wall with the name (description) matching the one that this window is assigned to
         const wallDesc = wall.fields.find(field => field.name === 'description').value;
 
@@ -52,7 +55,6 @@ export default Ember.Component.extend({
           wallUValue = wall.fields.find(field => field.name === 'U-value').value;
           wallDTD = wall.fields.find(field => field.name === 'DTD').value;
         }
-
       });
 
       // define at which index in the array is the 'U-value' and 'DTD' property we want to set
@@ -66,10 +68,10 @@ export default Ember.Component.extend({
       Ember.set(wallUValueField, 'value', wallUValue);
       Ember.set(wallDTDField, 'value', wallDTD);
     }
-
   },
 
-  mapUValue() {
+  mapUValue()
+  {
     const window = this.get('window');
 
     if (window && window.fields.length > 0) {
@@ -90,14 +92,12 @@ export default Ember.Component.extend({
         if (uValueField.value === 0) {
           Ember.set(uValueField, 'value', uValue);
         }
-
       }
-
     }
-
   },
 
-  mapHeatLoss() {
+  mapHeatLoss()
+  {
     const window = this.get('window');
 
     // grab glazingValue, wallUValue, uValue and DTD from window fields array

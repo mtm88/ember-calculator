@@ -109,7 +109,6 @@ export default Ember.Component.extend({
       // calculate and set the value of heatLossField
       Ember.set(heatLossField, 'value', uValue * DTD * area);
     }
-
   },
 
 });

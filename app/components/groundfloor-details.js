@@ -14,10 +14,12 @@ export default Ember.Component.extend({
       this.mapInsulationAndColumn();
     }),
 
-  mapArea() {
+  mapArea()
+  {
     const groundFloor = this.get('groundFloor');
 
     if (groundFloor && groundFloor.fields.length > 0) {
+
       // grab shortLength and longLength from groundFloor fields array
       const shortLength = groundFloor.fields.find(field => field.name === 'shortLength').value;
       const longLength = groundFloor.fields.find(field => field.name === 'longLength').value;
@@ -28,7 +30,6 @@ export default Ember.Component.extend({
 
       Ember.set(areaField, 'value', shortLength * longLength);
     }
-
   },
 
   mapDTD()
@@ -40,6 +41,7 @@ export default Ember.Component.extend({
 
       // grab DRT and longLength from roomFields array
       const DRT = roomFields.find(field => field.name === 'DRT').value;
+
       // grab insulationType from groundFloor fields array
       const insulationType = groundFloor.fields.find(field => field.name === 'insulationType').value;
 
@@ -51,6 +53,7 @@ export default Ember.Component.extend({
       if (!isNaN(DRT) && insulationType && insulationType.includes('So')) {
         Ember.set(DTDField, 'value', DRT - 10);
       }
+
       // if insulationType doesn't include 'So' string grab the Design External Temperature in C from siteInputsConfig
       else if (!isNaN(DRT)) {
         const DETinC = this.get('siteInputsConfig').find(field => field.name === 'DETinC').value;
@@ -66,27 +69,28 @@ export default Ember.Component.extend({
     const groundFloor = this.get('groundFloor');
 
     if (groundFloor && groundFloor.fields.length > 0) {
+
       // grab currentEdge from groundFloor fields array
       const currentEdge = groundFloor.fields.find(field => field.name === 'edgesExposed').value;
 
       if (currentEdge) {
+
         // grab edges table from model
         const { edgesExposed } = this.get('model');
+
         // match the edge for current groundFloor with the data from model
         const edge = edgesExposed.find(option => option.name === currentEdge).value;
 
         if (edge) {
+
           // define at which index in the array is the 'area' property we want to set
           const edgeIndex = groundFloor.fields.findIndex(field => field.name === 'edge');
           const edgeField = groundFloor.fields.objectAt(edgeIndex);
 
           Ember.set(edgeField, 'value', edge);
         }
-
       }
-
     }
-
   },
 
   mapInsulationAndColumn()
@@ -120,11 +124,8 @@ export default Ember.Component.extend({
 
           Ember.set(columnField, 'value', column);
         }
-
       }
-
     }
-
   },
 
   mapUValue()
@@ -155,7 +156,6 @@ export default Ember.Component.extend({
       const customUValue = groundFloor.fields.find(field => field.name === 'U-value').value;
       Ember.set(uValueField, 'value', customUValue);
     }
-
   },
 
   mapHeatLoss()
@@ -168,6 +168,7 @@ export default Ember.Component.extend({
     const uValue = groundFloor.fields.find(field => field.name === 'U-value').value;
 
     if (area && DTD && uValue) {
+
       // define at which index in the array is the 'heatLoss' property we want to set
       const heatLossIndex = groundFloor.fields.findIndex(field => field.name === 'heatLoss');
       const heatLossField = groundFloor.fields.objectAt(heatLossIndex);
@@ -177,7 +178,6 @@ export default Ember.Component.extend({
 
       Ember.set(heatLossField, 'value', area * DTD * uValue);
     }
-
   },
 
   calculateUValue(index)
@@ -202,6 +202,7 @@ export default Ember.Component.extend({
     /* different cases have hard-coded ways of calculating floorData so we need to differentiate between them
     based on the Edge and Column calculated within the component */
     switch (index) {
+
       // define floorData based on the index that's passed to the function and is based on Edge and Column
       case 1: {
         floorData = uValues.fifth.find(opt => opt.index === parseInt(longLength, 10));

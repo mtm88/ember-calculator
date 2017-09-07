@@ -36,6 +36,7 @@ export default Ember.Component.extend({
     function totalHeatLoss()
     {
       let heatLoss = 0;
+
       // get combinedHeatLoss that's defined on each room and give a sum
       this.get('rooms').forEach((room) => {
         if (room.combinedHeatLoss && !isNaN(room.combinedHeatLoss)) {
@@ -47,9 +48,9 @@ export default Ember.Component.extend({
     }
   ),
 
+  // find 'heatingDuration' field in siteInputsConfig and return the value if it exists
   typeOfHeating: Ember.computed('siteInputsConfig.@each.value', function typeOfHeating()
   {
-    // find 'heatingDuration' field in siteInputsConfig and return the value if it exists
     const reqField = this.get('siteInputsConfig').find(field => field.name === 'heatingDuration');
 
     if (reqField) {
@@ -59,9 +60,9 @@ export default Ember.Component.extend({
     return 'N/A';
   }),
 
+  // find 'heatingDuration' field in siteInputsConfig and check for the type of heating
   upliftFactor: Ember.computed('siteInputsConfig.@each.value', function upliftFactor()
   {
-    // find 'heatingDuration' field in siteInputsConfig and check for the type of heating
     const reqField = this.get('siteInputsConfig').find(field => field.name === 'heatingDuration');
 
     if (reqField && reqField.value === 'Intermittent') {
@@ -76,9 +77,9 @@ export default Ember.Component.extend({
     return this.get('selectedDFT.value');
   }),
 
+  // check for totalRadConv passed from heatLossCalculator component and return if if it's > 0
   oversizeFactor: Ember.computed('roomInputsConfig.@each.value', function totalHeatLossDay()
   {
-    // check for totalRadConv passed from heatLossCalculator component and return if if it's > 0
     const totalRadConv = this.get('totalRadConv');
 
     if (totalRadConv) {
@@ -93,9 +94,9 @@ export default Ember.Component.extend({
     return 'N/A';
   }),
 
+  // check for MWT passed from heatLossCalculator component and calculate the designFlowTemp based on XML data
   designFlowTemp: Ember.computed('siteInputsConfig.@each.value', function designFlowTemp()
   {
-    // check for MWT passed from heatLossCalculator component and calculate the designFlowTemp based on XML data
     const MWT = this.get('MWT');
 
     if (MWT && !isNaN(MWT)) {

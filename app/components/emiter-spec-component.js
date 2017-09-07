@@ -8,7 +8,8 @@ export default Ember.Component.extend({
     'rooms.@each.groundFloors.@each.heatLoss',
     'rooms.walls.@each.heatLoss',
     'rooms.windows.@each.heatLoss',
-    function totalHeatLoss() {
+    function totalHeatLoss()
+    {
       let heatLoss = 0;
       // get combinedHeatLoss that's defined on each room and give a sum
       this.get('rooms').forEach((room) => {
@@ -28,15 +29,17 @@ export default Ember.Component.extend({
     'rooms.@each.radTempFactor',
     'rooms.@each.combinedHeatLoss',
     'rooms.@each.isConvOrRad',
-    function totalContrToDHL() {
+    function totalContrToDHL()
+    {
       const rooms = this.get('rooms');
 
       // initialize the totalContrToDHL counter
       let totalContributionToHeating = 0;
-
+      
+      // check for the flag on the room that defines whether a room has a Convector or Radiator
       rooms.forEach((room) => {
-        // check for the flag on the room that defines whether a room has a Convector or Radiator
         if (room.isConvOrRad) {
+
           // find heatLoss value in the room fields array
           const heatLoss = room.fields.find(field => field.name === 'heatLoss').value;
           const intermittencyFactor = this.get('intermittencyFactor');
@@ -47,6 +50,7 @@ export default Ember.Component.extend({
           switch (room.emitterType) {
 
             case 'Radiator': {
+
               // find and define all the variables we need from room config
               const radSurfFinFactor = room.fields.find(field => field.name === 'radSurfFinFactor').value;
               const radEncFactor = room.fields.find(field => field.name === 'radEncFactor').value;
@@ -57,6 +61,7 @@ export default Ember.Component.extend({
               break;
             }
             case 'Convector': {
+
               // find and define all the variables we need from room config
               const convTempFactor = room.fields.find(field => field.name === 'convTempFactor').value;
 
@@ -79,7 +84,9 @@ export default Ember.Component.extend({
 
   intermittencyFactor: Ember.computed(
     'siteInputsConfig.@each.value',
-    function intermittencyFactor() {
+    function intermittencyFactor()
+    {
+      
       // grab the heatingDuration param from siteInputsConfig
       const heatingDuration = this.get('siteInputsConfig').find(field => field.name === 'heatingDuration').value;
 
